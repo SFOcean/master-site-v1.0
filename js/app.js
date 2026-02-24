@@ -3,7 +3,12 @@ import { portfolioData } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
-    renderProjects();
+    renderRoadmap();
+
+    // Check if we are on the main page or case-studies page
+    const isMainPage = document.getElementById('roadmap') !== null;
+    renderProjects(isMainPage);
+
     renderCredentials();
 });
 
@@ -17,16 +22,19 @@ function initThemeToggle() {
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateIcons(savedTheme);
 
-    themeBtn.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('portfolio-theme', newTheme);
-        updateIcons(newTheme);
-    });
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('portfolio-theme', newTheme);
+            updateIcons(newTheme);
+        });
+    }
 
     function updateIcons(theme) {
+        if (!sunIcon || !moonIcon) return;
         if (theme === 'dark') {
             sunIcon.style.display = 'block';
             moonIcon.style.display = 'none';
@@ -37,11 +45,32 @@ function initThemeToggle() {
     }
 }
 
-function renderProjects() {
+function renderRoadmap() {
+    const container = document.getElementById('timeline-container');
+    if (!container) return;
+
+    const html = portfolioData.experience.map(exp => `
+        <div class="timeline-item">
+            <div class="timeline-date">${exp.duration}</div>
+            <h3 class="timeline-title">${exp.role}</h3>
+            <div class="timeline-company">${exp.company}</div>
+            <p class="timeline-desc">${exp.description}</p>
+        </div>
+    `).join('');
+
+    container.innerHTML = html;
+}
+
+function renderProjects(featuredOnly = false) {
     const container = document.getElementById('projects-container');
     if (!container) return;
 
-    const html = portfolioData.projects.map(project => `
+    let projects = portfolioData.projects;
+    if (featuredOnly) {
+        projects = projects.filter(p => p.featured);
+    }
+
+    const html = projects.map(project => `
         <article class="project-card">
             <div class="project-meta">
                 <span class="company">${project.company}</span>

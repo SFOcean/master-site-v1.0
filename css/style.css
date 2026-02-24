@@ -337,6 +337,76 @@ a {
     color: var(--text-primary);
 }
 
+/* Roadmap / Timeline Section */
+.roadmap {
+    padding: var(--section-pad);
+    background-color: var(--bg-secondary);
+}
+
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: var(--border-color);
+    top: 0;
+    bottom: 0;
+    left: 20px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 60px;
+    padding-bottom: 40px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: var(--accent);
+    border: 4px solid var(--bg-primary);
+    border-radius: 50%;
+    top: 4px;
+    left: 13px;
+    z-index: 1;
+}
+
+.timeline-date {
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.timeline-title {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+
+.timeline-company {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.timeline-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
 /* Projects Section */
 .projects {
     padding: var(--section-pad);

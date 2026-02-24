@@ -1,30 +1,57 @@
 // data.js - The Pseudo-CMS for Portfolio Data
 
 export const portfolioData = {
-    projects: [
+    experience: [
         {
             id: 1,
-            title: "Rapid MVP Validation Platform",
+            role: "Sr. Executive - Project Management",
             company: "Singularity Limited",
             duration: "Dec 2025 - Present",
-            description: "Led the product lifecycle for 5 simultaneous projects. Utilized AI tools to program MVPs for rapid user validation, drastically cutting down engineering waste.",
-            tags: ["Agile", "AI Automation", "Scrum", "MVP"]
+            description: "Leading 5 simultaneous product lifecycles. Owning product roadmap planning, sprint delivery for complex Scrum-based projects, and rapid AI-programmed MVP validation."
         },
         {
             id: 2,
-            title: "Power Genie Project",
+            role: "MTO - Project Coordinator",
             company: "Sheba Platform Limited",
             duration: "Apr 2025 - Dec 2025",
-            description: "Uberized portable generator backup services. Managed end-to-end delivery, translating complex business requirements into solid solution architectures. Contributed to winning the SDG Award 2025.",
-            tags: ["Logistics Tech", "BRD Drafting", "B2B Solutions"]
+            description: "Managed the Power Genie Project (A Digital TowerCo Solution Uberizing Portable Generator backup). Liaised with EDOTCO, designed solid BRDs, and contributed to winning the SDG Award 2025."
         },
         {
             id: 3,
-            title: "LMS & EMS Startup Systems",
+            role: "Co-founder & Project Manager",
             company: "WebL Innovation",
             duration: "2020 - 2023",
-            description: "Co-founded and drove product management for two startup ideas, securing multiple national and international grants including the Databird Launchpad 2021 (1st Runner up).",
-            tags: ["Startup", "Leadership", "Product Strategy"]
+            description: "Led two startup products (LMS and EMS Systems) from inception. Won multiple national and international grants, including Databird Launchpad 1st Runner up."
+        }
+    ],
+
+    projects: [
+        {
+            id: 'power-genie',
+            title: "Power Genie Platform",
+            company: "Sheba Platform x EDOTCO",
+            duration: "2025",
+            description: "A comprehensive B2B solution 'uberizing' portable generator backups for TowerCo operations. I designed the solution architecture, managed the execution phase, and drafted the core Business Requirement Documents connecting API logic with hardware logistics.",
+            tags: ["Hardware+Software", "B2B", "Logistics MVP"],
+            featured: true
+        },
+        {
+            id: 'ai-mvp',
+            title: "Automated MVP Framework",
+            company: "Singularity Limited",
+            duration: "2026",
+            description: "A system built to cut down validation engineering hours by 60% through rapidly deploying AI-programmed micro-services for user testing before building full-stack applications.",
+            tags: ["Process Engineering", "AI", "Agile"],
+            featured: true
+        },
+        {
+            id: 'lms-startup',
+            title: "Scalable LMS Architecture",
+            company: "WebL Innovation",
+            duration: "2022",
+            description: "Led the product sprint for a lightweight Learning Management System targeted at emerging markets. Ensured minimal bandwidth requirements during architecture planning.",
+            tags: ["EdTech", "Startup", "MVP"],
+            featured: false
         }
     ],
 
@@ -34,14 +61,14 @@ export const portfolioData = {
             title: "CSCA™ (Certified Supply Chain Analyst)",
             issuer: "ISCEA",
             date: "2025",
-            icon: "📦" 
+            icon: "📦"
         },
         {
             id: 'pspo',
             title: "PSPO™ I (Professional Scrum Product Owner)",
             issuer: "Scrum.org",
             date: "Expected Q3 2026",
-            icon: "🎯" 
+            icon: "🎯"
         }
     ]
 };
