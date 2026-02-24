@@ -2,9 +2,40 @@
 import { portfolioData } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
     renderProjects();
     renderCredentials();
 });
+
+function initThemeToggle() {
+    const themeBtn = document.getElementById('theme-toggle');
+    const sunIcon = document.querySelector('.sun-icon');
+    const moonIcon = document.querySelector('.moon-icon');
+
+    // Check saved theme
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateIcons(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('portfolio-theme', newTheme);
+        updateIcons(newTheme);
+    });
+
+    function updateIcons(theme) {
+        if (theme === 'dark') {
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+        } else {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        }
+    }
+}
 
 function renderProjects() {
     const container = document.getElementById('projects-container');

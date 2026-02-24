@@ -2,25 +2,45 @@
    VARIABLES & DESIGN SYSTEM
    ========================================= */
 :root {
-    /* Colors - Dark Premium Theme */
+    /* Light Theme (Default) */
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --danger: #dc2626;
+
+    --border-color: rgba(0, 0, 0, 0.1);
+
+    /* Typography */
+    --font-sans: 'Inter', system-ui, sans-serif;
+
+    /* Spacing */
+    --container-max: 1000px;
+    --section-pad: 80px 0;
+    /* Compact down from 100px */
+}
+
+[data-theme="dark"] {
+    /* Dark Theme */
     --bg-primary: #0a0a0a;
     --bg-secondary: #141414;
     --bg-card: #1e1e1e;
-    
+
     --text-primary: #f5f5f5;
     --text-secondary: #a3a3a3;
     --text-muted: #737373;
-    
-    --accent: #3b82f6; /* Electric Blue */
+
+    --accent: #3b82f6;
     --accent-hover: #2563eb;
-    --danger: #ef4444; /* Used minimalistically for the "Fail" concept */
-    
-    /* Typography */
-    --font-sans: 'Inter', system-ui, sans-serif;
-    
-    /* Spacing */
-    --container-max: 1100px;
-    --section-pad: 100px 0;
+    --danger: #ef4444;
+
+    --border-color: rgba(255, 255, 255, 0.05);
 }
 
 /* =========================================
@@ -42,9 +62,13 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     color: var(--text-primary);
     line-height: 1.2;
     font-weight: 800;
@@ -69,36 +93,37 @@ a {
 .eyebrow {
     color: var(--accent);
     text-transform: uppercase;
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
     letter-spacing: 0.1em;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
 .section-header {
     text-align: center;
-    margin-bottom: 64px;
+    margin-bottom: 48px;
 }
 
 .section-header h2 {
-    font-size: 2.5rem;
-    margin-bottom: 12px;
+    font-size: 2.2rem;
+    margin-bottom: 8px;
 }
 
 .section-header p {
     color: var(--text-secondary);
-    font-size: 1.125rem;
+    font-size: 1rem;
 }
 
 /* Buttons */
 .btn {
     display: inline-block;
-    padding: 12px 28px;
+    padding: 10px 24px;
     border-radius: 6px;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     border: 1px solid transparent;
+    transition: all 0.2s ease;
 }
 
 .btn-primary {
@@ -112,12 +137,30 @@ a {
 
 .btn-secondary {
     background-color: transparent;
-    border-color: var(--text-secondary);
+    border-color: var(--border-color);
     color: var(--text-primary);
 }
 
 .btn-secondary:hover {
-    border-color: var(--text-primary);
+    border-color: var(--text-secondary);
+}
+
+.theme-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.theme-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
 }
 
 /* =========================================
@@ -131,20 +174,22 @@ a {
     left: 0;
     width: 100%;
     z-index: 100;
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-primary);
+    opacity: 0.95;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.3s;
 }
 
 .header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
+    height: 70px;
 }
 
 .logo {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 800;
     letter-spacing: -0.02em;
 }
@@ -152,12 +197,12 @@ a {
 .nav {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 24px;
 }
 
 .nav a:not(.btn) {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
 }
 
@@ -167,19 +212,60 @@ a {
 
 /* Hero Section */
 .hero {
-    min-height: 100vh;
+    min-height: auto;
+    padding: 140px 0 80px;
     display: flex;
     align-items: center;
-    padding-top: 80px; /* Offset for header */
+}
+
+.hero-layout {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+.hero-image-wrapper {
+    flex: 0 0 280px;
+    position: relative;
+}
+
+.profile-img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+
+.hero-badges {
+    position: absolute;
+    bottom: -16px;
+    left: -16px;
+    right: -16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.badge {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .hero-content {
-    max-width: 800px;
+    flex: 1;
 }
 
 .hero-title {
-    font-size: clamp(3.5rem, 8vw, 5.5rem);
-    margin-bottom: 24px;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 16px;
 }
 
 .hero-title .highlight {
@@ -187,15 +273,15 @@ a {
 }
 
 .hero-subtitle {
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
     color: var(--text-secondary);
-    margin-bottom: 40px;
-    max-width: 600px;
+    margin-bottom: 32px;
+    max-width: 500px;
 }
 
 .hero-actions {
     display: flex;
-    gap: 16px;
+    gap: 12px;
 }
 
 /* Anatomy Section */
@@ -206,32 +292,43 @@ a {
 
 .anatomy-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    /* More compact */
 }
 
 .anatomy-card {
     background-color: var(--bg-card);
-    padding: 40px 32px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.05);
+    padding: 32px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.anatomy-card:hover {
+    border-color: var(--accent);
 }
 
 .anatomy-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 16px;
+    font-size: 1.25rem;
+    margin-bottom: 12px;
     color: var(--accent);
 }
 
 .anatomy-card .problem {
     color: var(--text-secondary);
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1px dashed rgba(255,255,255,0.1);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.anatomy-card .solution {
+    font-size: 0.95rem;
 }
 
 .anatomy-card .solution strong {
-    color: #fff;
+    color: var(--text-primary);
 }
 
 /* Projects Section */
@@ -250,12 +347,12 @@ a {
     border-radius: 12px;
     padding: 32px;
     transition: transform 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(255,255,255,0.1);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .project-meta {
@@ -290,7 +387,7 @@ a {
 
 .tag {
     padding: 4px 12px;
-    background-color: rgba(255,255,255,0.05);
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 100px;
     font-size: 0.75rem;
     color: var(--text-secondary);
@@ -300,8 +397,8 @@ a {
 .credentials {
     padding: 80px 0;
     text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .credentials-flex {
@@ -350,7 +447,7 @@ a {
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding-top: 24px;
     color: var(--text-muted);
     font-size: 0.875rem;
@@ -359,13 +456,14 @@ a {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .nav {
-        display: none; /* Add mobile menu logic later if needed */
+        display: none;
+        /* Add mobile menu logic later if needed */
     }
-    
+
     .hero-actions {
         flex-direction: column;
     }
-    
+
     .hero-actions a {
         width: 100%;
         text-align: center;
