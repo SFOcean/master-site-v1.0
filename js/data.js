@@ -18,10 +18,65 @@ const portfolioData = {
         },
         {
             id: 3,
+            role: "Internship Trainee",
+            company: "THiNK Limited",
+            duration: "Jan 2023 - Feb 2023",
+            description: "Hands on training on SCADA, PLC, Circuit Design and technique of innovative product design."
+        }
+    ],
+
+    pmRoadmap: [
+        {
+            id: 1,
+            role: "Product Owner / PM Focus",
+            company: "Future Trajectory",
+            duration: "2026 and Beyond",
+            description: "Acquiring PSPO I certification and leading hyper-scaled product development cycles."
+        },
+        {
+            id: 2,
+            role: "Project Manager (Core PM)",
+            company: "Sheba & Singularity",
+            duration: "2025",
+            description: "Transitioned fully into owning product roadmaps, cross-functional team delivery, and B2B SaaS architecture planning."
+        },
+        {
+            id: 3,
             role: "Co-founder & Project Manager",
             company: "WebL Innovation",
             duration: "2020 - 2023",
-            description: "Led two startup products (LMS and EMS Systems) from inception. Won multiple national and international grants, including Databird Launchpad 1st Runner up."
+            description: "Started product journey by launching LMS and EMS startup systems from inception. Won Databird Launchpad 1st Runner up."
+        },
+        {
+            id: 4,
+            role: "Project Management Intern",
+            company: "Startup Khulna",
+            duration: "Feb 2021 - Jun 2021",
+            description: "Managed startup events, initial project blueprints, and coordinated co-working space operations."
+        }
+    ],
+
+    education: [
+        {
+            id: 1,
+            role: "BSc In Mechatronics Engineering",
+            company: "Khulna University of Engineering & Technology (KUET)",
+            duration: "2019 - Current",
+            description: "CGPA: 3.20. Active in leadership: Treasurer of KRIoTIC and Organizing Secretary of Mechatronics Association."
+        },
+        {
+            id: 2,
+            role: "Certifications",
+            company: "ISCEA & Scrum.org",
+            duration: "2025 - 2026",
+            description: "Certified Supply Chain Analyst (CSCA™) and expected Professional Scrum Product Owner (PSPO™ I)."
+        },
+        {
+            id: 3,
+            role: "Hackathons & Achievements",
+            company: "Various Accelerators",
+            duration: "2021 - 2022",
+            description: "Champion at GP Accelerator 3.0. 1st Runner up at Banglalink SDG Hackathon 3.0. Finalist at Huawei ICT Incubator (won $5K cloud credit). Completed MELBU Summer School."
         }
     ],
 

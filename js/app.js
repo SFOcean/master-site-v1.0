@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     renderRoadmap();
+    initTabs();
 
     // Check if we are on the main page or case-studies page
     const isMainPage = document.getElementById('roadmap') !== null;
@@ -44,20 +45,41 @@ function initThemeToggle() {
     }
 }
 
-function renderRoadmap() {
+function renderRoadmap(category = 'experience') {
     const container = document.getElementById('timeline-container');
     if (!container) return;
 
-    const html = portfolioData.experience.map(exp => `
+    // Check if category exists in portfolioData
+    const dataArray = portfolioData[category] || portfolioData.experience;
+
+    const html = dataArray.map(item => `
         <div class="timeline-item">
-            <div class="timeline-date">${exp.duration}</div>
-            <h3 class="timeline-title">${exp.role}</h3>
-            <div class="timeline-company">${exp.company}</div>
-            <p class="timeline-desc">${exp.description}</p>
+            <div class="timeline-date">${item.duration}</div>
+            <h3 class="timeline-title">${item.role}</h3>
+            <div class="timeline-company">${item.company}</div>
+            <p class="timeline-desc">${item.description}</p>
         </div>
     `).join('');
 
     container.innerHTML = html;
+}
+
+function initTabs() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    if (tabBtns.length === 0) return;
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            // Remove active from all
+            tabBtns.forEach(b => b.classList.remove('active'));
+            // Add active to clicked
+            e.target.classList.add('active');
+
+            // Render matching data
+            const target = e.target.getAttribute('data-target');
+            renderRoadmap(target);
+        });
+    });
 }
 
 function renderProjects(featuredOnly = false) {
