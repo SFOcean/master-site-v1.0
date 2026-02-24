@@ -2,48 +2,45 @@
    VARIABLES & DESIGN SYSTEM
    ========================================= */
 :root {
-    /* Light Theme (Default) */
-    --bg-primary: #f8fafc;
+    /* Light Theme (Minimal) */
+    --bg-primary: #ffffff;
     --bg-secondary: #ffffff;
     --bg-card: #ffffff;
 
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
+    --text-primary: #1D1D1F;
+    --text-secondary: #6E6E73;
+    --text-muted: #A1A1A6;
 
-    --accent: #2563eb;
-    --accent-hover: #1d4ed8;
-    --danger: #dc2626;
+    --accent: #007AFF;
+    --accent-hover: #005bb5;
+    --danger: #FF3B30;
 
-    --border-color: rgba(0, 0, 0, 0.1);
+    --border-color: #E5E5EA;
 
     /* Typography */
-    --font-mono: 'JetBrains Mono', monospace;
-    --font-sans: 'Space Grotesk', system-ui, sans-serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: var(--font-sans);
 
     /* Spacing */
-    --container-max: 1000px;
-    --section-pad: 80px 0;
-    /* Compact down from 100px */
+    --container-max: 900px;
+    --section-pad: 120px 0;
 }
 
 [data-theme="dark"] {
-    /* Dark Theme */
-    --bg-primary: #0a0a0a;
-    --bg-secondary: #0f1115;
-    /* Slightly cooler dark for tech vibe */
-    --bg-card: #16181d;
+    /* Dark Theme (Minimal) */
+    --bg-primary: #000000;
+    --bg-secondary: #000000;
+    --bg-card: #000000;
 
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    --text-primary: #F5F5F7;
+    --text-secondary: #86868B;
+    --text-muted: #6E6E73;
 
-    --accent: #3b82f6;
-    --accent-hover: #60a5fa;
-    --danger: #ef4444;
+    --accent: #0A84FF;
+    --accent-hover: #5E5CE6;
+    --danger: #FF453A;
 
-    --border-color: rgba(255, 255, 255, 0.08);
-    /* Slightly more visible border */
+    --border-color: #333336;
 }
 
 /* =========================================
@@ -246,47 +243,29 @@ a {
 }
 
 .hero-image-wrapper {
-    flex: 0 0 280px;
-    position: relative;
+    flex: 0 0 320px;
 }
 
 .profile-img {
     width: 100%;
     height: auto;
-    border-radius: 24px;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+    border-radius: 32px;
     display: block;
-}
-
-.hero-badges {
-    position: absolute;
-    bottom: -16px;
-    left: -16px;
-    right: -16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-}
-
-.badge {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    object-fit: cover;
 }
 
 .hero-content {
     flex: 1;
 }
 
+
+
 .hero-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    margin-bottom: 16px;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    margin-bottom: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
 }
 
 .hero-title .highlight {
@@ -305,22 +284,34 @@ a {
     gap: 12px;
 }
 
+/* Minimal Header Utils */
+.minimal-header {
+    margin-bottom: 40px;
+}
+
+.minimal-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
 /* Anatomy Section */
 .anatomy {
     padding: var(--section-pad);
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-primary);
 }
 
 .anatomy-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
-    /* More compact */
 }
 
 .anatomy-card {
-    background-color: var(--bg-card);
-    padding: 32px 24px;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    border-radius: 0;
     border-radius: 8px;
     border: 1px solid var(--border-color);
     transition: transform 0.2s, border-color 0.2s;
@@ -390,10 +381,8 @@ a {
 }
 
 .tab-btn.active {
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-color);
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
 }
 
 .timeline-container {
@@ -472,16 +461,16 @@ a {
 }
 
 .project-card {
-    background-color: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 32px;
+    background-color: transparent;
+    padding: 0;
     transition: transform 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: none;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .project-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
 }
 
 .project-meta {
