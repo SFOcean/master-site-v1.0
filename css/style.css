@@ -185,47 +185,79 @@ a {
    LAYOUT COMPONENTS
    ========================================= */
 
-/* Header */
+/* Sidebar Dashboard Header */
 .header {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
+    top: 40px;
+    bottom: 40px;
+    left: 40px;
+    width: 240px;
     background: var(--bg-primary);
-    opacity: 0.95;
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border-color);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    z-index: 1000;
     transition: background-color 0.3s;
+    overflow: hidden;
+}
+
+body {
+    padding-left: 320px;
+    /* 40 left + 240 width + 40 breathing room */
 }
 
 .header .container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    height: 70px;
+    align-items: flex-start;
+    height: 100%;
+    padding: 40px 24px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
 }
 
 .logo {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
     font-weight: 800;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
+    margin-bottom: 40px;
 }
 
 .nav {
     display: flex;
-    align-items: center;
-    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    flex: 1;
+    /* Pushes bottom area down */
 }
 
 .nav a:not(.btn) {
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.95rem;
+    font-weight: 500;
+    width: 100%;
+    padding: 8px 0;
+    transition: color 0.2s;
 }
 
 .nav a:hover:not(.btn) {
     color: var(--text-primary);
+}
+
+.nav-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.nav-bottom .btn-primary {
+    width: 100%;
+    text-align: center;
 }
 
 /* Hero Section */
@@ -266,6 +298,56 @@ a {
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.04em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.2em;
+}
+
+.static-text {
+    display: inline-block;
+}
+
+.rotator-wrapper {
+    display: inline-block;
+    height: 1.1em;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.rotator {
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 8s infinite cubic-bezier(0.8, 0, 0.2, 1);
+    color: var(--text-muted);
+}
+
+.rotator span {
+    height: 1.1em;
+    display: flex;
+    align-items: center;
+}
+
+@keyframes slideUp {
+
+    0%,
+    20% {
+        transform: translateY(0);
+    }
+
+    33.33%,
+    53.33% {
+        transform: translateY(-100%);
+    }
+
+    66.66%,
+    86.66% {
+        transform: translateY(-200%);
+    }
+
+    100% {
+        transform: translateY(-300%);
+    }
 }
 
 .hero-title .highlight {
@@ -599,22 +681,53 @@ a {
     /* Global Adjustments */
     :root {
         --section-pad: 50px 0;
-        /* Tighter padding for mobile */
     }
 
     body {
         font-size: 0.9rem;
-        /* Slightly scale down base font */
+        padding-left: 0;
+        padding-top: 70px;
     }
 
-    /* Navigation */
+    /* Navigation Override for Mobile */
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        width: 100%;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 0;
+        height: 70px;
+    }
+
+    .header .container {
+        flex-direction: row;
+        padding: 0 24px;
+        align-items: center;
+    }
+
+    .logo {
+        margin-bottom: 0;
+        font-size: 1.1rem;
+    }
+
     .nav {
-        gap: 16px;
+        display: none;
     }
 
-    .nav a:not(.btn) {
+    .nav-bottom {
+        flex-direction: row;
+        width: auto;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nav-bottom .btn-primary {
         display: none;
-        /* Hide text links to save space */
     }
 
     .btn {
