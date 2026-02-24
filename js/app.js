@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMainPage = document.getElementById('roadmap') !== null;
     renderProjects(isMainPage);
 
+    // Check if on details page
+    if (document.getElementById('project-detail-container')) {
+        renderProjectDetails();
+    }
+
     renderCredentials();
 });
 
@@ -102,10 +107,86 @@ function renderProjects(featuredOnly = false) {
             <div class="project-tags">
                 ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
             </div>
+            <a href="project-details.html?id=${project.id}" class="btn btn-secondary" style="margin-top: 24px; display: inline-block;">Read Case Study &rarr;</a>
         </article>
     `).join('');
 
     container.innerHTML = html;
+}
+
+function renderProjectDetails() {
+    const container = document.getElementById('project-detail-container');
+    if (!container) return;
+
+    // Get ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
+
+    if (!projectId) {
+        container.innerHTML = '<h2>Project not found</h2><a href="index.html" class="btn btn-primary" style="margin-top: 16px;">Go Back</a>';
+        return;
+    }
+
+    // Find Project
+    const project = portfolioData.projects.find(p => p.id === projectId);
+
+    if (!project) {
+        container.innerHTML = '<h2>Project not found</h2><a href="index.html" class="btn btn-primary" style="margin-top: 16px;">Go Back</a>';
+        return;
+    }
+
+    // Safely map results or use description if results array doesn't exist
+    let resultsHtml = '';
+    if (project.results && project.results.length > 0) {
+        resultsHtml = `
+            <h3>Results & Impact</h3>
+            <ul class="detail-results">
+                ${project.results.map(res => `<li>${res}</li>`).join('')}
+            </ul>
+        `;
+    }
+
+    // Render 
+    container.innerHTML = `
+        <div class="detail-header" style="text-align:center; margin-bottom: 48px;">
+            <p class="eyebrow">${project.company} &bull; ${project.duration}</p>
+            <h1>${project.title}</h1>
+            <div class="project-tags" style="justify-content:center; margin-top:16px;">
+                ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+        </div>
+
+        ${project.image ? `<img src="${project.image}" alt="${project.title}" class="detail-img" style="width: 100%; max-height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 48px; border: 1px solid var(--border-color);">` : ''}
+
+        <div class="detail-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+            <div>
+                <h3>Overview</h3>
+                <p style="color: var(--text-secondary); line-height: 1.8;">${project.overview || project.description}</p>
+            </div>
+            <div>
+                ${project.problem ? `
+                <div style="margin-bottom: 32px;">
+                    <h3 style="color: var(--danger);">The Problem</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">${project.problem}</p>
+                </div>
+                ` : ''}
+                ${project.solution ? `
+                <div>
+                    <h3 style="color: var(--accent);">The Solution</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">${project.solution}</p>
+                </div>
+                ` : ''}
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; padding: 32px; background-color: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border-color);">
+            ${resultsHtml}
+        </div>
+        
+        <div style="text-align:center; margin-top: 64px;">
+            <a href="case-studies.html" class="btn btn-secondary">&larr; Back to Case Studies</a>
+        </div>
+    `;
 }
 
 function renderCredentials() {

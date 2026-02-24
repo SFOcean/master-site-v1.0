@@ -88,7 +88,16 @@ const portfolioData = {
             duration: "2025",
             description: "A comprehensive B2B solution 'uberizing' portable generator backups for TowerCo operations. I designed the solution architecture, managed the execution phase, and drafted the core Business Requirement Documents connecting API logic with hardware logistics.",
             tags: ["Hardware+Software", "B2B", "Logistics MVP"],
-            featured: true
+            featured: true,
+            image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=1200",
+            overview: "Tower companies rely heavily on continuous power supply to maintain network connectivity. However, managing backup generators during outages is historically a messy, manual process. The Power Genie Platform was conceptualized to 'uberize' portable generator deployment.",
+            problem: "When a cell tower goes dark, dispatch times for backup generators averaged several hours due to manual vendor coordination, poor routing, and lack of real-time tracking.",
+            solution: "We designed a full-stack platform mapping hardware logistics to software workflows. I drafted the core BRDs (Business Requirement Documents) detailing the architecture that allowed algorithmic dispatching of generators based on distance, traffic, and vendor capacity.",
+            results: [
+                "Achieved a 45% reduction in average generator dispatch times.",
+                "Digitally onboarded 100+ vendor vehicles into the live-tracking ecosystem.",
+                "Contributed to winning the prestigious SDG Award 2025."
+            ]
         },
         {
             id: 'ai-mvp',
@@ -97,7 +106,16 @@ const portfolioData = {
             duration: "2026",
             description: "A system built to cut down validation engineering hours by 60% through rapidly deploying AI-programmed micro-services for user testing before building full-stack applications.",
             tags: ["Process Engineering", "AI", "Agile"],
-            featured: true
+            featured: true,
+            image: "https://images.unsplash.com/photo-1555949963-aa79dcee5789?auto=format&fit=crop&w=1200",
+            overview: "As companies scale, engineering resources become the major bottleneck. Often, months are spent building products that fail at initial user validation.",
+            problem: "Engineering teams were spending 4-6 weeks developing MVPs to test hypotheses, resulting in massive wasted capital when feedback was negative.",
+            solution: "I implemented a rapid-validation workflow utilizing generative AI and no-code tools to create functional prototypes within 48 hours for immediate beta testing.",
+            results: [
+                "Reduced 'Time-to-Validation' from 4 weeks to under 3 days.",
+                "Decreased wasted engineering hours by an estimated 60%.",
+                "Enabled the product team to test 5x as many hypotheses per quarter."
+            ]
         },
         {
             id: 'lms-startup',
@@ -106,7 +124,15 @@ const portfolioData = {
             duration: "2022",
             description: "Led the product sprint for a lightweight Learning Management System targeted at emerging markets. Ensured minimal bandwidth requirements during architecture planning.",
             tags: ["EdTech", "Startup", "MVP"],
-            featured: false
+            featured: false,
+            image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=1200",
+            overview: "Educational technology often assumes high-speed internet. In emerging markets, heavy LMS applications fail to load, isolating remote students from digital education.",
+            problem: "Existing LMS systems required too much bandwidth, creating a barrier to entry for users in rural areas on 3G networks.",
+            solution: "Architected a strictly modular, progressive web application (PWA) with offline-sync capabilities. Pushed for a strictly asynchronous architecture.",
+            results: [
+                "Successfully loaded core application in under 3 seconds on a 3G connection.",
+                "Secured funding and 1st Runner Up position at Databird Launchpad 2021."
+            ]
         }
     ],
 

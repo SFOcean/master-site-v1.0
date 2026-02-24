@@ -522,6 +522,28 @@ a {
     color: var(--text-secondary);
 }
 
+/* Project Details CSS */
+.detail-results {
+    list-style-type: none;
+    padding: 0;
+}
+
+.detail-results li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.detail-results li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: bold;
+}
+
 /* Credentials Section */
 .credentials {
     padding: 80px 0;
