@@ -461,17 +461,95 @@ a {
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+
+    /* Global Adjustments */
+    :root {
+        --section-pad: 50px 0;
+        /* Tighter padding for mobile */
+    }
+
+    body {
+        font-size: 0.9rem;
+        /* Slightly scale down base font */
+    }
+
+    /* Navigation */
     .nav {
+        gap: 16px;
+    }
+
+    .nav a:not(.btn) {
         display: none;
-        /* Add mobile menu logic later if needed */
+        /* Hide text links to save space */
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: 120px 0 60px;
+    }
+
+    .hero-layout {
+        flex-direction: column;
+        /* Stack image and text */
+        text-align: center;
+        gap: 40px;
+    }
+
+    .hero-image-wrapper {
+        flex: 0 0 auto;
+        width: 200px;
+        /* Smaller image on mobile */
+        margin: 0 auto;
+    }
+
+    .hero-badges {
+        bottom: -24px;
+    }
+
+    .hero-subtitle {
+        margin: 0 auto 32px auto;
     }
 
     .hero-actions {
+        justify-content: center;
         flex-direction: column;
+        width: 100%;
     }
 
     .hero-actions a {
         width: 100%;
         text-align: center;
+    }
+
+    /* Typography Scaling */
+    .hero-title {
+        font-size: clamp(2.2rem, 8vw, 3rem);
+    }
+
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+
+    /* Content Grids */
+    .anatomy-grid,
+    .projects-grid {
+        grid-template-columns: 1fr;
+        /* Force single column */
+    }
+
+    /* Footer */
+    .footer-content h2 {
+        font-size: 2rem;
+    }
+
+    .contact-links {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
     }
 }
