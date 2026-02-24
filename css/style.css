@@ -239,12 +239,18 @@ body {
     font-size: 0.95rem;
     font-weight: 500;
     width: 100%;
-    padding: 8px 0;
-    transition: color 0.2s;
+    padding: 10px 12px;
+    margin-left: -12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .nav a:hover:not(.btn) {
     color: var(--text-primary);
+    background-color: var(--bg-secondary);
 }
 
 .nav-bottom {
@@ -337,16 +343,16 @@ body {
 
     33.33%,
     53.33% {
-        transform: translateY(-100%);
+        transform: translateY(-25%);
     }
 
     66.66%,
     86.66% {
-        transform: translateY(-200%);
+        transform: translateY(-50%);
     }
 
     100% {
-        transform: translateY(-300%);
+        transform: translateY(-75%);
     }
 }
 
