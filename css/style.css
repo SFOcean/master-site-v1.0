@@ -188,64 +188,62 @@ a {
 /* Sidebar Dashboard Header */
 .header {
     position: fixed;
-    top: 40px;
-    bottom: 40px;
-    left: 40px;
-    width: 240px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 72px;
     background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 24px;
+    border: none;
+    border-right: 1px solid var(--border-color);
     z-index: 1000;
     transition: background-color 0.3s;
     overflow: hidden;
 }
 
 body {
-    padding-left: 320px;
-    /* 40 left + 240 width + 40 breathing room */
+    padding-left: 140px;
 }
 
 .header .container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     height: 100%;
-    padding: 40px 24px;
+    padding: 32px 0;
     width: 100%;
     max-width: none;
     margin: 0;
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    margin-bottom: 40px;
+    display: none;
 }
 
 .nav {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
     width: 100%;
     flex: 1;
-    /* Pushes bottom area down */
 }
 
 .nav a:not(.btn) {
     color: var(--text-secondary);
     font-size: 0.95rem;
     font-weight: 500;
-    width: 100%;
-    padding: 10px 12px;
-    margin-left: -12px;
+    width: auto;
+    padding: 10px;
     border-radius: 8px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+}
+
+.nav a:not(.btn) span {
+    display: none;
 }
 
 .nav a:hover:not(.btn) {
@@ -258,12 +256,11 @@ body {
     flex-direction: column;
     gap: 16px;
     width: 100%;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .nav-bottom .btn-primary {
-    width: 100%;
-    text-align: center;
+    display: none;
 }
 
 /* Hero Section */
@@ -300,23 +297,29 @@ body {
 
 .hero-title {
     font-size: clamp(3rem, 5vw, 4.5rem);
-    margin-bottom: 24px;
+    margin-bottom: 8px;
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.04em;
+}
+
+.hero-roles {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 32px;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 0.2em;
+    gap: 0.25em;
+    color: var(--text-primary);
 }
 
 .static-text {
-    display: inline-block;
+    color: var(--text-secondary);
 }
 
 .rotator-wrapper {
     display: inline-block;
-    height: 1.1em;
+    height: 1.25em;
     overflow: hidden;
     vertical-align: bottom;
 }
@@ -325,11 +328,10 @@ body {
     display: flex;
     flex-direction: column;
     animation: slideUp 8s infinite cubic-bezier(0.8, 0, 0.2, 1);
-    color: var(--text-muted);
 }
 
 .rotator span {
-    height: 1.1em;
+    height: 1.25em;
     display: flex;
     align-items: center;
 }
@@ -356,20 +358,28 @@ body {
     }
 }
 
-.hero-title .highlight {
-    color: var(--danger);
-}
-
-.hero-subtitle {
-    font-size: clamp(1rem, 1.5vw, 1.125rem);
-    color: var(--text-secondary);
-    margin-bottom: 32px;
-    max-width: 500px;
-}
-
-.hero-actions {
+.hero-socials {
     display: flex;
-    gap: 12px;
+    gap: 16px;
+    margin-bottom: 32px;
+    color: var(--text-muted);
+}
+
+.social-icon {
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.social-icon:hover {
+    color: var(--text-primary);
+}
+
+.hero-location {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    text-transform: uppercase;
 }
 
 /* Minimal Header Utils */
@@ -771,46 +781,35 @@ body {
 
     /* Hero Section */
     .hero {
-        padding: 120px 0 60px;
+        padding: 60px 0;
     }
 
     .hero-layout {
+        flex-direction: column-reverse;
+        /* Stack text below image or text above image? The user might want text above image like normal. `column` puts text first. Let's stick with column */
         flex-direction: column;
-        /* Stack image and text */
         text-align: center;
         gap: 40px;
     }
 
+    .hero-content {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+
     .hero-image-wrapper {
         flex: 0 0 auto;
-        width: 200px;
-        /* Smaller image on mobile */
+        width: 240px;
         margin: 0 auto;
     }
 
-    .hero-badges {
-        bottom: -24px;
-    }
-
-    .hero-subtitle {
-        margin: 0 auto 32px auto;
-    }
-
-    .hero-actions {
+    .hero-roles {
         justify-content: center;
-        flex-direction: column;
-        width: 100%;
     }
 
-    .hero-actions a:not(.btn-icon) {
-        width: 100%;
-        text-align: center;
-    }
-
-    .hero-actions .btn-icon {
-        width: auto;
-        margin: 0 auto;
-        margin-top: 8px;
+    .hero-socials {
+        justify-content: center;
     }
 
     /* Typography Scaling */
