@@ -18,7 +18,8 @@
     --border-color: rgba(0, 0, 0, 0.1);
 
     /* Typography */
-    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-sans: 'Space Grotesk', system-ui, sans-serif;
 
     /* Spacing */
     --container-max: 1000px;
@@ -29,18 +30,20 @@
 [data-theme="dark"] {
     /* Dark Theme */
     --bg-primary: #0a0a0a;
-    --bg-secondary: #141414;
-    --bg-card: #1e1e1e;
+    --bg-secondary: #0f1115;
+    /* Slightly cooler dark for tech vibe */
+    --bg-card: #16181d;
 
-    --text-primary: #f5f5f5;
-    --text-secondary: #a3a3a3;
-    --text-muted: #737373;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
 
     --accent: #3b82f6;
-    --accent-hover: #2563eb;
+    --accent-hover: #60a5fa;
     --danger: #ef4444;
 
-    --border-color: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.08);
+    /* Slightly more visible border */
 }
 
 /* =========================================
@@ -57,22 +60,25 @@ html {
 }
 
 body {
-    font-family: var(--font-sans);
+    font-family: var(--font-mono);
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 0.95rem;
+    /* Slightly smaller base for mono font */
 }
 
 h1,
 h2,
 h3,
 h4 {
+    font-family: var(--font-sans);
     color: var(--text-primary);
     line-height: 1.2;
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 a {
