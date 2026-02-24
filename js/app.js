@@ -1,5 +1,4 @@
 // app.js - Render logic connecting data to DOM
-import { portfolioData } from './data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();

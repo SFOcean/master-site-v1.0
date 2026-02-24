@@ -1,6 +1,6 @@
 // data.js - The Pseudo-CMS for Portfolio Data
 
-export const portfolioData = {
+const portfolioData = {
     experience: [
         {
             id: 1,
