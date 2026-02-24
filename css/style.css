@@ -151,6 +151,21 @@ a {
     border-color: var(--text-secondary);
 }
 
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: transparent;
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-icon:hover {
+    border-color: var(--text-secondary);
+    color: var(--accent);
+}
+
 .theme-btn {
     background: transparent;
     border: none;
@@ -591,9 +606,15 @@ a {
         width: 100%;
     }
 
-    .hero-actions a {
+    .hero-actions a:not(.btn-icon) {
         width: 100%;
         text-align: center;
+    }
+
+    .hero-actions .btn-icon {
+        width: auto;
+        margin: 0 auto;
+        margin-top: 8px;
     }
 
     /* Typography Scaling */
