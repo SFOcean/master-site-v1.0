@@ -7,21 +7,94 @@ const portfolioData = {
             role: "Sr. Executive - Project Management",
             company: "Singularity Limited",
             duration: "Dec 2025 - Present",
-            description: "Leading 5 simultaneous product lifecycles. Owning product roadmap planning, sprint delivery for complex Scrum-based projects, and rapid AI-programmed MVP validation."
+            description: "Leading 5 simultaneous product lifecycles. Owning product roadmap planning, sprint delivery for complex Scrum-based projects, and rapid AI-programmed MVP validation.",
+            logo: "assets/singularity.png"
         },
         {
             id: 2,
             role: "MTO - Project Coordinator",
             company: "Sheba Platform Limited",
             duration: "Apr 2025 - Dec 2025",
-            description: "Managed the Power Genie Project (A Digital TowerCo Solution Uberizing Portable Generator backup). Liaised with EDOTCO, designed solid BRDs, and contributed to winning the SDG Award 2025."
+            description: "Managed the Power Genie Project (A Digital TowerCo Solution Uberizing Portable Generator backup). Liaised with EDOTCO, designed solid BRDs, and contributed to winning the SDG Award 2025.",
+            logo: "assets/sheba.png"
         },
         {
             id: 3,
             role: "Internship Trainee",
             company: "THiNK Limited",
             duration: "Jan 2023 - Feb 2023",
-            description: "Hands on training on SCADA, PLC, Circuit Design and technique of innovative product design."
+            description: "Hands on training on SCADA, PLC, Circuit Design and technique of innovative product design.",
+            logo: "assets/think.png"
+        }
+    ],
+
+    skills: [
+        {
+            category: "Product Management",
+            items: [
+                "Communication", "Stakeholder Management", "Critical Thinking",
+                "User Research", "UX Design", "Wireframing", "Product Strategy",
+                "Prioritization", "Roadmapping", "Project Management", "Market Research",
+                "Design Systems", "Competitive Analysis", "Data Analysis", "AI/ML",
+                "A/B Testing", "Product Integration", "Data Visualization", "Product Localization"
+            ]
+        },
+        {
+            category: "Tools",
+            items: [
+                "Notion", "JIRA", "Figma", "Framer", "Amplitude", "Datadog", "Heap",
+                "Looker", "Google Analytics", "Firebase", "Segment", "UserTesting.com"
+            ]
+        },
+        {
+            category: "AI and Automation",
+            items: [
+                "Figma Make", "Cursor", "Notion AI", "Relay.app", "Zapier"
+            ]
+        },
+        {
+            category: "Programming",
+            items: [
+                "SQL", "HTML", "CSS", "Python"
+            ]
+        },
+        {
+            category: "Languages",
+            items: [
+                "Bengali (Native)", "English (Fluent)"
+            ]
+        }
+    ],
+
+    stack: [
+        { name: "Jira", desc: "Project Management", icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" },
+        { name: "Figma", desc: "Design & Wireframing", icon: "M12 2v20M17 5H7v14h10z" },
+        { name: "Trello", desc: "Task Tracking", icon: "M4 4h16v16H4zM8 8v8M16 8v4" },
+        { name: "Notion", desc: "Documentation", icon: "M4 4h16v16H4zM4 9h16" },
+        { name: "Miro", desc: "Whiteboarding", icon: "M12 2L2 22h20L12 2z" },
+        { name: "Google Analytics", desc: "Data & Metrics", icon: "M2 22h20M6 18v-8M12 18v-12M18 18v-4" }
+    ],
+
+    updates: [
+        {
+            date: "Dec 2025",
+            description: "Started a new role as Sr. Executive - Project Management at Singularity Limited.",
+            category: "Work"
+        },
+        {
+            date: "Dec 2025",
+            description: "Managed the Power Genie Project (A Digital TowerCo Solution) and contributed to winning the SDG Award 2025.",
+            category: "Work"
+        },
+        {
+            date: "Nov 2025",
+            description: "Transitioning fully into owning product roadmaps, cross-functional team delivery, and B2B SaaS architecture planning.",
+            category: "Life"
+        },
+        {
+            date: "Jan 2023",
+            description: "Hands-on training on SCADA, PLC, and Circuit Design at THiNK Limited.",
+            category: "Education"
         }
     ],
 
@@ -58,25 +131,46 @@ const portfolioData = {
 
     education: [
         {
-            id: 1,
-            role: "BSc In Mechatronics Engineering",
-            company: "Khulna University of Engineering & Technology (KUET)",
-            duration: "2019 - Current",
-            description: "CGPA: 3.20. Active in leadership: Treasurer of KRIoTIC and Organizing Secretary of Mechatronics Association."
+            category: "Certifications",
+            items: [
+                {
+                    id: 1,
+                    role: "Professional Scrum Product Owner (PSPO™ I)",
+                    company: "Scrum.org",
+                    duration: "Expected 2026",
+                    description: "Certification covering agile product management and product ownership principles.",
+                    logo: "assets/scrum.png"
+                },
+                {
+                    id: 2,
+                    role: "Certified Supply Chain Analyst (CSCA™)",
+                    company: "ISCEA",
+                    duration: "2025",
+                    description: "Certification covering end-to-end supply chain concepts.",
+                    logo: "assets/iscea.png"
+                }
+            ]
         },
         {
-            id: 2,
-            role: "Certifications",
-            company: "ISCEA & Scrum.org",
-            duration: "2025 - 2026",
-            description: "Certified Supply Chain Analyst (CSCA™) and expected Professional Scrum Product Owner (PSPO™ I)."
-        },
-        {
-            id: 3,
-            role: "Hackathons & Achievements",
-            company: "Various Accelerators",
-            duration: "2021 - 2022",
-            description: "Champion at GP Accelerator 3.0. 1st Runner up at Banglalink SDG Hackathon 3.0. Finalist at Huawei ICT Incubator (won $5K cloud credit). Completed MELBU Summer School."
+            category: "Academy",
+            items: [
+                {
+                    id: 3,
+                    role: "BSc In Mechatronics Engineering",
+                    company: "Khulna University of Engineering & Technology (KUET)",
+                    duration: "2019 - Current",
+                    description: "CGPA: 3.20. Active in leadership: Treasurer of KRIoTIC and Organizing Secretary of Mechatronics Association.",
+                    logo: "assets/kuet.png"
+                },
+                {
+                    id: 4,
+                    role: "Hackathons & Achievements",
+                    company: "Various Accelerators",
+                    duration: "2021 - 2022",
+                    description: "Champion at GP Accelerator 3.0. 1st Runner up at Banglalink SDG Hackathon 3.0. Finalist at Huawei ICT Incubator (won $5K cloud credit). Completed MELBU Summer School.",
+                    logo: "assets/accelerators.png"
+                }
+            ]
         }
     ],
 
@@ -150,6 +244,54 @@ const portfolioData = {
             issuer: "Scrum.org",
             date: "Expected Q3 2026",
             icon: "🎯"
+        }
+    ],
+
+    blogs: [
+        {
+            id: 'rapid-mvp-validation',
+            title: "The Art of Rapid MVP Validation",
+            date: "Feb 24, 2026",
+            readTime: "5 min read",
+            summary: "Why engineering hours are the most expensive resource, and how to use generative AI workflows to validate product ideas within 48 hours before writing a single line of code.",
+            tags: ["Product Strategy", "AI", "Agile"],
+            image: "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=1200",
+            content: `
+                <h3>The Bottleneck of Engineering</h3>
+                <p>As startups scale, engineering resources inevitably become the primary bottleneck. A common trap product teams fall into is spending 4 to 6 weeks writing code for a feature or MVP, only to discover during beta testing that the core hypothesis was flawed.</p>
+                <p>Engineering hours are incredibly expensive. But more importantly, the opportunity cost of building the wrong thing is devastating.</p>
+                
+                <h3>Generative AI for Rapid Prototyping</h3>
+                <p>The modern product manager must act as a rapid experimenter. Today, utilizing tools like Cursor, Vercel, and OpenAI's APIs, a PM can spin up a fully intelligent, interactive prototype in under 48 hours without draining core engineering resources.</p>
+                <p>By creating these "high-fidelity illusions", we can put real interfaces in front of users, track their behavior, and validate the willingness to pay before committing to a 2-month sprint.</p>
+
+                <h3>Key Takeaways</h3>
+                <ul>
+                    <li>Do not build until you have validated the demand.</li>
+                    <li>Use generative AI to create functional prototypes in days, not weeks.</li>
+                    <li>Treat every new feature as an experiment with a defined success metric.</li>
+                </ul>
+            `
+        },
+        {
+            id: 'b2b-saas-architecture',
+            title: "Architecting B2B SaaS for Legacy Systems",
+            date: "Jan 12, 2026",
+            readTime: "7 min read",
+            summary: "A deep dive into bridging the gap between modern cloud-native SaaS applications and the legacy hardware systems often found in heavy industries.",
+            tags: ["B2B", "Architecture", "Logistics"],
+            image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200",
+            content: `
+                <h3>The Reality of B2B</h3>
+                <p>When building for consumers, we assume modern hardware and fast internet. When building B2B software for industries like logistics or telecom, we must build for the reality of legacy systems and intermittent connectivity.</p>
+                
+                <h3>The "Uberization" Challenge</h3>
+                <p>During my time working on projects that bridge hardware and software (like portable generator dispatching), the challenge was never just the software platform. It was how the software communicated with real-world vendors using low-end devices in areas with poor 3G coverage.</p>
+                
+                <h3>Designing for Resilience</h3>
+                <p>We solved these architectural bottlenecks by utilizing strictly offline-first progressive web applications (PWAs), background synchronization APIs, and aggressive debouncing of location polling.</p>
+                <p>The core lesson: You must design your system architecture around the weakest link in your hardware supply chain.</p>
+            `
         }
     ]
 };
