@@ -2,6 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
+    initActiveNav();
     renderUpdates();
 
     // Check if we are on the main page or case-studies page
@@ -156,21 +157,29 @@ function renderWork() {
         `;
     }
 
-    // 2. Render Projects (2 columns)
+    // 2. Render Projects (Horizontal Slider)
     const projContainer = document.getElementById('work-projects-list-container');
     if (projContainer && portfolioData.projects) {
         projContainer.innerHTML = `
             <div class="work-block">
                 <div class="work-label">Projects</div>
-                <div class="work-items">
-                    <div class="projects-2col">
-                        ${portfolioData.projects.filter(p => p.featured).map(project => `
-                            <article class="project-card">
-                                <h3>${project.title}</h3>
-                                <p class="desc">${project.description.slice(0, 100)}...</p>
-                                <a href="project-details.html?id=${project.id}" class="btn btn-secondary" style="margin-top: 16px; display: inline-block;">View Project</a>
+                <div class="work-items" style="min-width: 0;">
+                    <div style="display: flex; gap: 24px; overflow-x: auto; padding-bottom: 24px; margin-bottom: 8px; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--border-color) transparent;">
+                        ${portfolioData.projects.map(project => `
+                            <article style="flex: 0 0 calc(50% - 12px); min-width: 280px; scroll-snap-align: start; padding: 24px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; display: flex; flex-direction: column; transition: all 0.2s;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                                    <h3 style="font-size: 1.25rem; margin: 0; line-height: 1.3;">${project.title}</h3>
+                                </div>
+                                <p style="font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6; color: var(--text-secondary); flex: 1;">${project.description}</p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+                                    ${(project.tags || []).slice(0, 3).map(tag => `<span style="font-size: 0.75rem; color: var(--text-muted); padding: 4px 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 100px;">${tag}</span>`).join('')}
+                                </div>
+                                <a href="project-details.html?id=${project.id}" class="btn btn-secondary" style="display: block; padding: 10px 16px; font-size: 0.85rem; font-weight: 500; width: 100%; box-sizing: border-box; text-align: center; border-radius: 8px; transition: border-color 0.2s;">View Case Study &rarr;</a>
                             </article>
                         `).join('')}
+                    </div>
+                    <div style="margin-top: 16px; margin-bottom: 24px;">
+                        <a href="case-studies.html" class="btn btn-outline" style="font-size: 0.95rem; color: var(--text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">Explore all case studies &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -460,4 +469,27 @@ function renderCredentials() {
     `).join('');
 
     container.innerHTML = html;
+}
+
+function initActiveNav() {
+    const currentPath = window.location.pathname;
+    let activeKey = 'index.html'; // Default for root path
+
+    if (currentPath.includes('work.html')) {
+        activeKey = 'work.html';
+    } else if (currentPath.includes('case-studies.html') || currentPath.includes('project-details.html')) {
+        activeKey = 'case-studies.html';
+    } else if (currentPath.includes('blog.html') || currentPath.includes('blog-details.html')) {
+        activeKey = 'blog.html';
+    }
+
+    const navItems = document.querySelectorAll('.nav .nav-item');
+    navItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (href === activeKey) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
 }

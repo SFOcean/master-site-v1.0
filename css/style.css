@@ -22,7 +22,7 @@
     --font-mono: var(--font-sans);
 
     /* Spacing */
-    --container-max: 900px;
+    --container-max: 1200px;
     --section-pad: 120px 0;
 }
 
@@ -302,6 +302,33 @@ body {
     align-items: center;
 }
 
+/* Active Nav States */
+.nav a:not(.btn).active {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.nav a:not(.btn).active svg {
+    transform: scale(1.15);
+    stroke-width: 2.8;
+}
+
+.nav a:not(.btn).active::after {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 6px solid var(--text-primary);
+    width: 0;
+    height: 0;
+    border-radius: 0;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
 .nav-bottom .btn-primary {
     display: none;
 }
@@ -309,7 +336,7 @@ body {
 /* Hero Section */
 .hero {
     min-height: auto;
-    padding: 140px 0 80px;
+    padding: 140px 0 40px;
     display: flex;
     align-items: center;
 }
@@ -486,12 +513,12 @@ body {
 
 /* Updates Section */
 .updates {
-    padding: var(--section-pad);
+    padding: 24px 0 120px;
     background-color: var(--bg-secondary);
 }
 
 .updates-container {
-    max-width: 800px;
+    max-width: var(--container-max);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -776,6 +803,21 @@ body {
         border-left: 1px solid var(--border-color);
     }
 
+    .nav a:not(.btn).active::after {
+        left: 50%;
+        top: auto;
+        bottom: -6px;
+        transform: translateX(-50%);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 6px solid var(--text-primary);
+        border-top: none;
+        width: 0;
+        height: 0;
+        background: transparent;
+        border-radius: 0;
+    }
+
     .nav-bottom .btn-primary {
         display: none;
     }
@@ -867,7 +909,8 @@ body {
 }
 
 .work-list-container {
-    max-width: 800px;
+    max-width: var(--container-max);
+    padding-right: 48px;
     margin: 0 auto;
     padding-bottom: 80px;
 }
@@ -959,6 +1002,14 @@ body {
         gap: 0;
     }
 
+    .work-list-container {
+        padding-right: 0;
+    }
+
+    .work-nav-slider {
+        padding-right: 0;
+    }
+
     .work-label {
         padding-top: 0;
         margin-bottom: 16px;
@@ -974,7 +1025,8 @@ body {
 }
 
 .work-nav-slider {
-    max-width: 800px;
+    max-width: var(--container-max);
+    padding-right: 48px;
     margin: 0 auto;
     margin-bottom: 48px;
     border-bottom: 1px solid var(--border-color);

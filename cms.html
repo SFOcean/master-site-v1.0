@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio PM | Visual CMS</title>
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f9fafb;
+            --surface: #ffffff;
+            --border: #e5e7eb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-list {
+            list-style: none;
+            flex: 1;
+            padding: 16px 0;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: #f3f4f6;
+            color: var(--text-main);
+        }
+
+        .nav-item.active {
+            background: #eff6ff;
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .topbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .btn-outline:hover {
+            background: #f3f4f6;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #fca5a5;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        /* Form Components */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input,
+        textarea,
+        select {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            width: 100%;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Loader */
+        .loader {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: var(--success);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 50;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div v-if="loading" class="loader">
+            <span v-if="!error">Connecting to Database...</span>
+            <span v-else style="color: red;">❌ Failed connection. Ensure 'node server.js' is running.</span>
+        </div>
+
+        <div v-else class="app-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    Portfolio CMS
+                </div>
+                <ul class="nav-list">
+                    <li v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id" class="nav-item"
+                        :class="{ active: activeTab === tab.id }">
+                        {{ tab.name }}
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <header class="topbar">
+                    <div style="font-weight: 500; color: var(--text-muted);">
+                        Currently editing: <strong style="color: var(--text-main);">{{ currentTabName }}</strong>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <a href="http://127.0.0.1:5500" target="_blank" class="btn btn-outline"
+                            title="Requires standard Live Server">Preview Site</a>
+                        <button class="btn btn-primary" @click="saveChanges" :disabled="saving">
+                            {{ saving ? 'Saving...' : 'Save All Changes' }}
+                        </button>
+                    </div>
+                </header>
+
+                <div class="content-area">
+
+                    <!-- Experience Section -->
+                    <div v-if="activeTab === 'experience'">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="page-title" style="margin: 0;">Experience</h2>
+                            <button class="btn btn-outline" @click="addExperience">+ Add Experience</button>
+                        </div>
+
+                        <div v-for="(exp, index) in data.experience" :key="exp.id || index" class="card">
+                            <div class="card-title">
+                                Role #{{ index + 1 }}
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Up" @click="moveUp(data.experience, index)"
+                                        :disabled="index === 0">↑</button>
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Down" @click="moveDown(data.experience, index)"
+                                        :disabled="index === data.experience.length - 1">↓</button>
+                                    <button class="btn btn-danger" style="padding: 4px 12px;"
+                                        @click="removeExperience(index)">Trash</button>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Role / Title</label><input v-model="exp.role"></div>
+                                <div class="form-group"><label>Company</label><input v-model="exp.company"></div>
+                                <div class="form-group"><label>Duration</label><input v-model="exp.duration"></div>
+                                <div class="form-group"><label>Logo Path</label><input v-model="exp.logo"
+                                        placeholder="assets/logo.png"></div>
+                                <div class="form-group full"><label>Description</label><textarea
+                                        v-model="exp.description"></textarea></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projects Section -->
+                    <div v-if="activeTab === 'projects'">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="page-title" style="margin: 0;">Case Studies & Projects</h2>
+                            <button class="btn btn-outline" @click="addProject">+ Add Project</button>
+                        </div>
+
+                        <div v-for="(proj, index) in data.projects" :key="proj.id || index" class="card">
+                            <div class="card-title">
+                                Project ID: {{ proj.id || 'New' }}
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Up" @click="moveUp(data.projects, index)"
+                                        :disabled="index === 0">↑</button>
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Down" @click="moveDown(data.projects, index)"
+                                        :disabled="index === data.projects.length - 1">↓</button>
+                                    <button class="btn btn-danger" style="padding: 4px 12px;"
+                                        @click="removeProject(index)">Trash</button>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>URL Slug / ID</label><input v-model="proj.id"></div>
+                                <div class="form-group"><label>Display Title</label><input v-model="proj.title"></div>
+                                <div class="form-group"><label>Company Prefix</label><input v-model="proj.company">
+                                </div>
+                                <div class="form-group"><label>Duration</label><input v-model="proj.duration"></div>
+
+                                <div class="form-group full"><label>Preview Card Description</label><textarea
+                                        v-model="proj.description"></textarea></div>
+                                <div class="form-group full">
+                                    <label>Tags (Comma separated)</label>
+                                    <input :value="(proj.tags || []).join(', ')" @input="updateTags($event, proj)">
+                                </div>
+
+                                <!-- Detailed Section Options -->
+                                <div class="form-group full"
+                                    style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+                                    <label style="color: var(--primary);">Case Study Content (Detail Page)</label>
+                                </div>
+                                <div class="form-group full"><label>Cover Image URL / Path</label><input
+                                        v-model="proj.image"></div>
+                                <div class="form-group full"><label>Overview</label><textarea
+                                        v-model="proj.overview"></textarea></div>
+                                <div class="form-group full"><label>The Problem</label><textarea
+                                        v-model="proj.problem"></textarea></div>
+                                <div class="form-group full"><label>The Solution</label><textarea
+                                        v-model="proj.solution"></textarea></div>
+                                <div class="form-group full">
+                                    <label>Results (One per line)</label>
+                                    <textarea :value="(proj.results || []).join('\\n')"
+                                        @input="updateResults($event, proj)"></textarea>
+                                </div>
+                                <div class="form-group"
+                                    style="flex-direction: row; align-items: center; gap: 12px; padding-top: 12px;">
+                                    <input type="checkbox" v-model="proj.featured" style="width: 20px;">
+                                    <label style="margin: 0;">Featured heavily on Home Page?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blogs Section -->
+                    <div v-if="activeTab === 'blogs'">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="page-title" style="margin: 0;">Thoughts & Blogs</h2>
+                            <button class="btn btn-outline" @click="addBlog">+ Add Blog Post</button>
+                        </div>
+
+                        <div v-for="(blog, index) in data.blogs" :key="blog.id || index" class="card">
+                            <div class="card-title">
+                                Writing ID: {{ blog.id || 'New' }}
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Up" @click="moveUp(data.blogs, index)"
+                                        :disabled="index === 0">↑</button>
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Down" @click="moveDown(data.blogs, index)"
+                                        :disabled="index === data.blogs.length - 1">↓</button>
+                                    <button class="btn btn-danger" style="padding: 4px 12px;"
+                                        @click="removeBlog(index)">Trash</button>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>URL Slug / ID</label><input v-model="blog.id"></div>
+                                <div class="form-group"><label>Article Title</label><input v-model="blog.title"></div>
+                                <div class="form-group"><label>Date Published</label><input v-model="blog.date"></div>
+                                <div class="form-group"><label>Read Time Estimate</label><input v-model="blog.readTime">
+                                </div>
+                                <div class="form-group full"><label>Preview Summary</label><textarea
+                                        v-model="blog.summary"></textarea></div>
+                                <div class="form-group full"><label>Cover Image</label><input v-model="blog.image">
+                                </div>
+                                <div class="form-group full">
+                                    <label>Tags (Comma separated)</label>
+                                    <input :value="(blog.tags || []).join(', ')" @input="updateTags($event, blog)">
+                                </div>
+                                <div class="form-group full">
+                                    <label>HTML Content Body</label>
+                                    <textarea v-model="blog.content"
+                                        style="min-height: 250px; font-family: monospace;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education Section -->
+                    <div v-if="activeTab === 'education'">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="page-title" style="margin: 0;">Education & Certifications</h2>
+                        </div>
+
+                        <div v-for="(group, gIndex) in data.education" :key="gIndex" style="margin-bottom: 40px;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--border); padding-bottom: 8px;">
+                                <h3 style="color: var(--primary);">{{ group.category }}</h3>
+                                <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;"
+                                    @click="addEducationItem(gIndex)">+ Add Item</button>
+                            </div>
+
+                            <div v-for="(item, index) in group.items" :key="index" class="card"
+                                style="margin-bottom: 16px;">
+                                <div class="card-title">
+                                    Entry
+                                    <div style="display: flex; gap: 8px;">
+                                        <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                            title="Move Up" @click="moveUp(group.items, index)"
+                                            :disabled="index === 0">↑</button>
+                                        <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                            title="Move Down" @click="moveDown(group.items, index)"
+                                            :disabled="index === group.items.length - 1">↓</button>
+                                        <button class="btn btn-danger" style="padding: 4px 12px;"
+                                            @click="group.items.splice(index, 1)">Trash</button>
+                                    </div>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group"><label>Degree / Role</label><input v-model="item.role">
+                                    </div>
+                                    <div class="form-group"><label>Institution / Company</label><input
+                                            v-model="item.company"></div>
+                                    <div class="form-group"><label>Year / Duration</label><input
+                                            v-model="item.duration"></div>
+                                    <div class="form-group"><label>Logo Path (optional)</label><input
+                                            v-model="item.logo"></div>
+                                    <div class="form-group full"><label>Description</label><textarea
+                                            v-model="item.description" style="min-height: 50px;"></textarea></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </main>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" :class="{ show: toastVisible }">✅ Saved Successfully to Database!</div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    loading: true,
+                    error: false,
+                    saving: false,
+                    toastVisible: false,
+                    activeTab: 'projects',
+                    tabs: [
+                        { id: 'projects', name: 'Case Studies' },
+                        { id: 'experience', name: 'Work Experience' },
+                        { id: 'blogs', name: 'Writings & Blogs' },
+                        { id: 'education', name: 'Education' }
+                    ],
+                    data: {}
+                };
+            },
+            computed: {
+                currentTabName() {
+                    return this.tabs.find(t => t.id === this.activeTab)?.name;
+                }
+            },
+            async mounted() {
+                try {
+                    const res = await fetch('http://localhost:3000/api/data');
+                    if (!res.ok) throw new Error("Failed");
+
+                    this.data = await res.json();
+
+                    // Initialize arrays if missing
+                    if (!this.data.experience) this.data.experience = [];
+                    if (!this.data.projects) this.data.projects = [];
+                    if (!this.data.blogs) this.data.blogs = [];
+                    if (!this.data.education) this.data.education = [];
+
+                    this.loading = false;
+                } catch (err) {
+                    console.error(err);
+                    this.error = true;
+                }
+            },
+            methods: {
+                // Helpers for splitting string to arrays
+                updateTags(event, item) {
+                    const val = event.target.value;
+                    item.tags = val.split(',').map(s => s.trim()).filter(Boolean);
+                },
+                updateResults(event, item) {
+                    const val = event.target.value;
+                    item.results = val.split('\\n').map(s => s.trim()).filter(Boolean);
+                },
+
+                // Adders / Removers / Movers
+                moveUp(array, index) {
+                    if (index > 0) {
+                        const temp = array[index];
+                        array[index] = array[index - 1];
+                        array[index - 1] = temp;
+                    }
+                },
+                moveDown(array, index) {
+                    if (index < array.length - 1) {
+                        const temp = array[index];
+                        array[index] = array[index + 1];
+                        array[index + 1] = temp;
+                    }
+                },
+                addExperience() { this.data.experience.unshift({ id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' }); },
+                removeExperience(idx) { this.data.experience.splice(idx, 1); },
+
+                addProject() { this.data.projects.unshift({ id: 'new-project', title: '', company: '', duration: '', description: '', tags: [], featured: false, overview: '', problem: '', solution: '', results: [], image: '' }); },
+                removeProject(idx) { this.data.projects.splice(idx, 1); },
+
+                addBlog() { this.data.blogs.unshift({ id: 'new-blog', title: '', date: '', readTime: '', summary: '', tags: [], image: '', content: '' }); },
+                removeBlog(idx) { this.data.blogs.splice(idx, 1); },
+
+                addEducationItem(groupIndex) {
+                    this.data.education[groupIndex].items.unshift({ id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' });
+                },
+
+                // Network Action
+                async saveChanges() {
+                    this.saving = true;
+                    try {
+                        const res = await fetch('http://localhost:3000/api/saveData', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(this.data)
+                        });
+                        const result = await res.json();
+
+                        if (result.success) {
+                            this.showToast();
+                        } else {
+                            alert("Save failed on backend.");
+                        }
+                    } catch (e) {
+                        alert("Network error: Server must be running on port 3000.");
+                    } finally {
+                        this.saving = false;
+                    }
+                },
+
+                showToast() {
+                    this.toastVisible = true;
+                    setTimeout(() => { this.toastVisible = false; }, 3000);
+                }
+            }
+        }).mount('#app');
+    </script>
+
+</body>
+
+</html>
