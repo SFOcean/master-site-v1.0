@@ -38,12 +38,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initResumeLinks() {
     if (portfolioData.resumeUrl) {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const fileName = portfolioData.resumeUrl.split('/').pop();
+
         document.querySelectorAll('a[data-resume-btn]').forEach(a => {
-            // Using the new force-download endpoint
-            a.href = `/api/download-resume?url=${encodeURIComponent(portfolioData.resumeUrl)}`;
-            a.setAttribute('download', portfolioData.resumeUrl.split('/').pop());
-            // No target="_blank" to keep it as a clean direct download
-            a.removeAttribute('target');
+            if (isLocal) {
+                // Force direct download via backend only when running locally
+                a.href = `/api/download-resume?url=${encodeURIComponent(portfolioData.resumeUrl)}`;
+            } else {
+                // Use a direct relative path for static hosting (GitHub Pages)
+                a.href = portfolioData.resumeUrl;
+            }
+
+            a.setAttribute('download', fileName);
+            // target="_blank" combined with download attribute is the most reliable fallback to force 
+            // the download dialog or a clean new-tab preview in static environments.
+            a.setAttribute('target', '_blank');
         });
     }
 }
