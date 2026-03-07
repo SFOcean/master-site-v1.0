@@ -32,7 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderCredentials();
+    initResumeLinks();
+    renderLinkedInSlider();
 });
+
+function initResumeLinks() {
+    if (portfolioData.resumeUrl) {
+        document.querySelectorAll('a[data-resume-btn]').forEach(a => {
+            const fileName = portfolioData.resumeUrl.split('/').pop();
+            a.href = portfolioData.resumeUrl;
+            a.setAttribute('download', fileName);
+            a.setAttribute('target', '_blank');
+        });
+    }
+}
 
 function initWorkNavSlider() {
     const sliderLinks = document.querySelectorAll('.work-nav-slider a');
@@ -121,11 +134,13 @@ function renderUpdates() {
     if (!container || !portfolioData.updates) return;
 
     const html = portfolioData.updates.map(item => `
-        <div class="update-item">
+        <div class="update-item ${item.link ? 'has-link' : ''}">
             <div class="update-date">${item.date}</div>
             <div class="update-content">
-                <p class="update-desc">${item.description}</p>
-                <span class="update-tag">${item.category}</span>
+                ${item.link ? `<a href="${item.link}" target="_blank" class="update-link" style="text-decoration: none; display: flex; align-items: flex-start; gap: 12px; width: 100%;">` : '<div style="display: flex; align-items: flex-start; gap: 12px; width: 100%;">'}
+                    <p class="update-desc">${item.description}</p>
+                    <span class="update-tag">${item.category}</span>
+                ${item.link ? `</a>` : '</div>'}
             </div>
         </div>
     `).join('');
@@ -141,7 +156,7 @@ function renderWork() {
             <div class="work-block">
                 <div class="work-label">Experience</div>
                 <div class="work-items">
-                    ${portfolioData.experience.map(item => `
+                    ${portfolioData.experience.slice(0, 2).map(item => `
                         <div class="work-item">
                             ${item.logo ? `<img class="work-company-logo" src="${item.logo}" alt="${item.company}">` : ''}
                             <div class="work-info">
@@ -152,6 +167,30 @@ function renderWork() {
                             <div class="work-date">${item.duration}</div>
                         </div>
                     `).join('')}
+
+                    ${portfolioData.experience.length > 2 ? `
+                        <details class="exp-continuous-details" style="margin-top: 0; margin-bottom: 48px;">
+                            <summary style="cursor: pointer; padding: 16px 0; font-weight: 500; font-size: 0.95rem; color: var(--text-secondary); outline: none; margin: 0; display: flex; align-items: center; gap: 8px; user-select: none;">
+                                <span style="border-bottom: 1px dashed var(--text-muted);">Unlock ${portfolioData.experience.length - 2} earlier chapters</span>
+                                <span class="exp-details-icon" style="color: var(--text-muted); font-size: 1.1rem; transition: transform 0.2s; display: inline-block;">↓</span>
+                            </summary>
+                            <div style="padding: 0;">
+                                <div style="display: flex; flex-direction: column; gap: 0;">
+                                    ${portfolioData.experience.slice(2).map(item => `
+                                        <div class="work-item" style="border-top: 1px solid var(--border-color); padding-top: 32px; padding-bottom: 0;">
+                                            ${item.logo ? `<img class="work-company-logo" src="${item.logo}" alt="${item.company}">` : ''}
+                                            <div class="work-info">
+                                                <h3 class="work-title">${item.role}</h3>
+                                                <div class="work-company">${item.company}</div>
+                                                <p class="work-desc">${item.description}</p>
+                                            </div>
+                                            <div class="work-date">${item.duration}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </details>
+                    ` : ''}
                 </div>
             </div>
         `;
@@ -168,18 +207,17 @@ function renderWork() {
                         ${portfolioData.projects.map(project => `
                             <article style="flex: 0 0 calc(50% - 12px); min-width: 280px; scroll-snap-align: start; padding: 24px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; display: flex; flex-direction: column; transition: all 0.2s;">
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                                    <h3 style="font-size: 1.25rem; margin: 0; line-height: 1.3;">${project.title}</h3>
+                                    <h3 style="font-size: 1.25rem; margin: 0; line-height: 1.3;"><a href="project-details.html?id=${project.id}" style="text-decoration: none; color: inherit;">${project.title}</a></h3>
                                 </div>
-                                <p style="font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6; color: var(--text-secondary); flex: 1;">${project.description}</p>
-                                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+                                <p style="font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6; color: var(--text-secondary); flex: 1;">${project.description} <a href="project-details.html?id=${project.id}" style="color: var(--primary); text-decoration: underline; text-underline-offset: 4px; font-weight: 500;">see more in case study &rarr;</a></p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                                     ${(project.tags || []).slice(0, 3).map(tag => `<span style="font-size: 0.75rem; color: var(--text-muted); padding: 4px 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 100px;">${tag}</span>`).join('')}
                                 </div>
-                                <a href="project-details.html?id=${project.id}" class="btn btn-secondary" style="display: block; padding: 10px 16px; font-size: 0.85rem; font-weight: 500; width: 100%; box-sizing: border-box; text-align: center; border-radius: 8px; transition: border-color 0.2s;">View Case Study &rarr;</a>
                             </article>
                         `).join('')}
                     </div>
                     <div style="margin-top: 16px; margin-bottom: 24px;">
-                        <a href="case-studies.html" class="btn btn-outline" style="font-size: 0.95rem; color: var(--text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">Explore all case studies &rarr;</a>
+                        <a href="case-studies.html" style="font-size: 0.95rem; color: var(--text-primary); text-decoration: underline; text-underline-offset: 4px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s;">Explore all case studies &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -192,16 +230,19 @@ function renderWork() {
         skillsContainer.innerHTML = `
             <div class="work-block">
                 <div class="work-label">Skills</div>
-                <div class="work-items" style="display: flex; flex-direction: column; gap: 32px;">
-                    ${portfolioData.skills.map(skillGroup => `
-                        <div class="skill-group">
-                            <h4 style="margin-bottom: 16px; color: var(--text-secondary); font-size: 1rem; font-weight: 400;">${skillGroup.category}</h4>
-                            <div class="skills-container">
+                <div class="work-items" style="display: flex; flex-direction: column; gap: 16px;">
+                    ${portfolioData.skills.map((skillGroup, index) => `
+                        <details class="skill-group-details" ${index === 0 ? 'open' : ''} style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                            <summary style="cursor: pointer; padding: 12px 0; font-weight: 500; font-size: 1.05rem; color: var(--text-primary); outline: none; margin: 0; display: flex; justify-content: space-between; align-items: center; user-select: none; list-style: none;">
+                                ${skillGroup.category}
+                                <span class="skill-exp-icon" style="color: var(--text-muted); font-size: 1.2rem; transition: transform 0.2s; font-family: monospace;">${index === 0 ? '−' : '+'}</span>
+                            </summary>
+                            <div class="skills-container" style="padding-top: 16px; padding-bottom: 24px;">
                                 ${skillGroup.items.map(skill => `
                                     <div class="skill-pill">${skill}</div>
                                 `).join('')}
                             </div>
-                        </div>
+                        </details>
                     `).join('')}
                 </div>
             </div>
@@ -258,6 +299,28 @@ function renderWork() {
             </div>
         `;
     }
+
+    // Add animation to the Work Experience native details expander
+    const expDetails = document.querySelector('.exp-continuous-details');
+    if (expDetails) {
+        expDetails.addEventListener('toggle', (e) => {
+            const icon = expDetails.querySelector('.exp-details-icon');
+            if (icon) {
+                icon.style.transform = e.target.open ? 'rotate(180deg)' : 'none';
+            }
+        });
+    }
+
+    // Add toggle icons to Skills native details expander
+    const skillDetailsList = document.querySelectorAll('.skill-group-details');
+    skillDetailsList.forEach(detail => {
+        detail.addEventListener('toggle', (e) => {
+            const icon = detail.querySelector('.skill-exp-icon');
+            if (icon) {
+                icon.textContent = e.target.open ? '−' : '+';
+            }
+        });
+    });
 }
 
 function renderEducation() {
@@ -295,17 +358,26 @@ function renderProjects(featuredOnly = false) {
     }
 
     const html = projects.map(project => `
-        <article class="project-card">
-            <div class="project-meta">
-                <span class="company">${project.company}</span>
-                <span class="duration">${project.duration}</span>
+        <article class="project-card" style="display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;">
+            ${project.image ? `
+                <a href="project-details.html?id=${project.id}" style="flex: 0 0 220px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); display: block;">
+                    <img src="${project.image}" alt="${project.title}" style="width: 100%; height: 140px; object-fit: cover; transition: transform 0.3s ease; display: block;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                </a>
+            ` : ''}
+            <div style="flex: 1; min-width: 280px; max-width: 480px;">
+                <div class="project-meta" style="margin-bottom: 8px; font-size: 0.8rem;">
+                    <span class="company">${project.company}</span>
+                    <span class="duration">${project.duration}</span>
+                </div>
+                <h3 style="margin-bottom: 8px; font-size: 1.2rem;"><a href="project-details.html?id=${project.id}" style="text-decoration: none; color: inherit;">${project.title}</a></h3>
+                <p class="desc" style="margin-bottom: 16px; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">${project.description}</p>
+                <div style="margin-bottom: 20px;">
+                    <a href="project-details.html?id=${project.id}" style="display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; border: 1px solid var(--border-color); border-radius: 100px; color: var(--text-primary); text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: all 0.2s ease;" onmouseover="this.style.borderColor='var(--text-primary)'; this.style.backgroundColor='var(--text-primary)'; this.style.color='var(--bg-primary)';" onmouseout="this.style.borderColor='var(--border-color)'; this.style.backgroundColor='transparent'; this.style.color='var(--text-primary)';">View Case Study &rarr;</a>
+                </div>
+                <div class="project-tags" style="margin-top: 0; gap: 6px;">
+                    ${project.tags.map(tag => `<span class="tag" style="font-size: 0.7rem; padding: 2px 8px;">${tag}</span>`).join('')}
+                </div>
             </div>
-            <h3>${project.title}</h3>
-            <p class="desc">${project.description}</p>
-            <div class="project-tags">
-                ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-            </div>
-            <a href="project-details.html?id=${project.id}" class="btn btn-secondary" style="margin-top: 24px; display: inline-block;">Read Case Study &rarr;</a>
         </article>
     `).join('');
 
@@ -392,7 +464,7 @@ function renderBlogs() {
     if (!container || !portfolioData.blogs) return;
 
     const html = portfolioData.blogs.map(blog => `
-        <article class="project-card" style="padding: 32px;">
+        <article class="project-card" style="padding-bottom: 24px;">
             <div class="project-meta" style="margin-bottom: 12px; font-family: var(--font-mono); font-size: 0.85rem;">
                 <span class="date" style="color: var(--text-primary); font-weight: 500;">${blog.date}</span>
                 <span class="duration" style="color: var(--text-muted);">&bull; ${blog.readTime}</span>
@@ -492,4 +564,28 @@ function initActiveNav() {
             item.classList.remove('active');
         }
     });
+}
+
+
+function renderLinkedInSlider() {
+    const container = document.getElementById('linkedin-slider');
+    if (!container || !portfolioData.linkedinPosts) return;
+
+    if (portfolioData.linkedinPosts.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-muted); width: 100%;">Stay tuned for new insights.</p>';
+        return;
+    }
+
+    const html = portfolioData.linkedinPosts.map(post => {
+        return `
+            <div class="linkedin-slide">
+                <div class="linkedin-card-wrapper" style="padding: 32px; height: 320px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
+                    <h3 style="margin-bottom: 24px; font-size: 1.25rem; line-height: 1.4; font-weight: 500;">${post.title}</h3>
+                    <a href="${post.link}" target="_blank" class="btn btn-secondary" style="margin-top: auto; font-size: 0.85rem; padding: 10px 20px; border-radius: 100px;">Read More &rarr;</a>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    container.innerHTML = html;
 }

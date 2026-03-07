@@ -443,6 +443,72 @@
                             </div>
                         </div>
                     </div>
+                    <!-- LinkedIn Posts Section -->
+                    <div v-if="activeTab === 'linkedin'">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="page-title" style="margin: 0;">Thoughts & Insights</h2>
+                            <button class="btn btn-outline" @click="addLinkedinPost">+ Add Insight Card</button>
+                        </div>
+                        <p style="color: var(--text-muted); margin-bottom: 24px;">Add a title and a link for your
+                            insights/posts.</p>
+
+                        <div v-for="(post, index) in data.linkedinPosts" :key="index" class="card">
+                            <div class="card-title">
+                                Insight Card
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Up" @click="moveUp(data.linkedinPosts, index)"
+                                        :disabled="index === 0">↑</button>
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Down" @click="moveDown(data.linkedinPosts, index)"
+                                        :disabled="index === data.linkedinPosts.length - 1">↓</button>
+                                    <button class="btn btn-danger" style="padding: 4px 12px;"
+                                        @click="removeLinkedinPost(index)">Trash</button>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group full"><label>Card Title</label><input v-model="post.title"
+                                        placeholder="e.g. My thoughts on Product Management"></div>
+                                <div class="form-group full"><label>External Link (LinkedIn, etc)</label><input
+                                        v-model="post.link" placeholder="https://..."></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Updates Section -->
+                    <div v-if="activeTab === 'updates'">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="page-title" style="margin: 0;">Recent Updates</h2>
+                            <button class="btn btn-outline" @click="addUpdate">+ Add Update</button>
+                        </div>
+                        <div v-for="(update, index) in data.updates" :key="index" class="card">
+                            <div class="card-title">
+                                Update
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Up" @click="moveUp(data.updates, index)"
+                                        :disabled="index === 0">↑</button>
+                                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;"
+                                        title="Move Down" @click="moveDown(data.updates, index)"
+                                        :disabled="index === data.updates.length - 1">↓</button>
+                                    <button class="btn btn-danger" style="padding: 4px 12px;"
+                                        @click="removeUpdate(index)">Trash</button>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Date</label><input v-model="update.date"
+                                        placeholder="e.g. Dec 2025"></div>
+                                <div class="form-group"><label>Category</label><input v-model="update.category"
+                                        placeholder="Life, Work, Education"></div>
+                                <div class="form-group full"><label>Description</label><textarea
+                                        v-model="update.description"></textarea></div>
+                                <div class="form-group full"><label>Optional Link</label><input v-model="update.link"
+                                        placeholder="https://..."></div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Education Section -->
                     <div v-if="activeTab === 'education'">
@@ -490,6 +556,53 @@
                         </div>
                     </div>
 
+                    <!-- Resumes Section -->
+                    <div v-if="activeTab === 'resumes'">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="page-title" style="margin: 0;">Resume Management</h2>
+                            <div style="display: flex; gap: 12px;">
+                                <input type="file" id="resume-upload" @change="uploadResume" style="display: none;"
+                                    accept=".pdf,.doc,.docx">
+                                <label for="resume-upload" class="btn btn-outline" style="cursor: pointer;">+ Upload New
+                                    Resume</label>
+                            </div>
+                        </div>
+
+                        <div v-if="!data.resumes || data.resumes.length === 0"
+                            style="text-align: center; padding: 40px; color: var(--text-muted);">
+                            No resumes uploaded yet.
+                        </div>
+
+                        <div v-for="(resume, index) in data.resumes" :key="resume.id || index" class="card"
+                            :style="resume.active ? 'border-color: var(--primary); background: #f0f7ff;' : ''">
+                            <div class="card-title">
+                                <span v-if="resume.active"
+                                    style="color: var(--primary); font-size: 0.8rem; text-transform: uppercase;">●
+                                    Currently Active</span>
+                                <span v-else>Inactive</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-primary" v-if="!resume.active"
+                                        style="padding: 4px 12px; font-size: 0.8rem;"
+                                        @click="setResumeActive(index)">Set Active</button>
+                                    <button class="btn btn-danger" style="padding: 4px 12px;"
+                                        @click="removeResume(index)">Trash</button>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Resume Name (Internal)</label><input
+                                        v-model="resume.name"></div>
+                                <div class="form-group"><label>File Path</label><input v-model="resume.url" readonly
+                                        style="background: #f3f4f6; cursor: not-allowed;"></div>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <a :href="resume.url" target="_blank"
+                                    style="font-size: 0.85rem; color: var(--primary); text-decoration: none;">View
+                                    File</a>
+                            </div>
+                        </div>
+                    </div>
+
 
 
                 </div>
@@ -514,8 +627,11 @@
                     tabs: [
                         { id: 'projects', name: 'Case Studies' },
                         { id: 'experience', name: 'Work Experience' },
+                        { id: 'updates', name: 'Recent Updates' },
                         { id: 'blogs', name: 'Writings & Blogs' },
-                        { id: 'education', name: 'Education' }
+                        { id: 'linkedin', name: 'LinkedIn Posts' },
+                        { id: 'education', name: 'Education' },
+                        { id: 'resumes', name: 'Resumes' }
                     ],
                     data: {}
                 };
@@ -537,6 +653,9 @@
                     if (!this.data.projects) this.data.projects = [];
                     if (!this.data.blogs) this.data.blogs = [];
                     if (!this.data.education) this.data.education = [];
+                    if (!this.data.updates) this.data.updates = [];
+                    if (!this.data.linkedinPosts) this.data.linkedinPosts = [];
+                    if (!this.data.resumes) this.data.resumes = [];
 
                     this.loading = false;
                 } catch (err) {
@@ -581,6 +700,71 @@
 
                 addEducationItem(groupIndex) {
                     this.data.education[groupIndex].items.unshift({ id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' });
+                },
+
+                addUpdate() {
+                    if (!this.data.updates) this.data.updates = [];
+                    this.data.updates.unshift({ date: '', description: '', category: '', link: '' });
+                },
+                removeUpdate(idx) {
+                    this.data.updates.splice(idx, 1);
+                },
+
+                addLinkedinPost() {
+                    if (!this.data.linkedinPosts) this.data.linkedinPosts = [];
+                    this.data.linkedinPosts.unshift({ title: '', link: '' });
+                },
+                removeLinkedinPost(idx) {
+                    this.data.linkedinPosts.splice(idx, 1);
+                },
+
+                setResumeActive(idx) {
+                    this.data.resumes.forEach((r, i) => {
+                        r.active = (i === idx);
+                    });
+                    // Also update the global resumeUrl
+                    this.data.resumeUrl = this.data.resumes[idx].url;
+                    if (this.data.settings) this.data.settings.resumeUrl = this.data.resumes[idx].url;
+                },
+
+                removeResume(idx) {
+                    const wasActive = this.data.resumes[idx].active;
+                    this.data.resumes.splice(idx, 1);
+                    if (wasActive && this.data.resumes.length > 0) {
+                        this.setResumeActive(0);
+                    } else if (this.data.resumes.length === 0) {
+                        this.data.resumeUrl = '';
+                    }
+                },
+
+                async uploadResume(event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
+
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    try {
+                        const res = await fetch('http://localhost:3000/api/upload', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const result = await res.json();
+                        if (result.success) {
+                            this.data.resumes.push({
+                                id: Date.now(),
+                                name: file.name,
+                                url: result.filePath,
+                                active: this.data.resumes.length === 0
+                            });
+                            if (this.data.resumes.length === 1) {
+                                this.data.resumeUrl = result.filePath;
+                                if (this.data.settings) this.data.settings.resumeUrl = result.filePath;
+                            }
+                        }
+                    } catch (e) {
+                        alert("Upload failed.");
+                    }
                 },
 
                 // Network Action

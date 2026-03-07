@@ -11,8 +11,67 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.static(__dirname)); // Serve static files from the root
 
-// The absolute path to our data JS file
 const dataFilePath = path.join(__dirname, 'js', 'data.js');
+
+// Custom middleware to disable caching for data.js
+app.use('/js/data.js', (req, res, next) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
+});
+
+const multer = require('multer');
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const uploadDir = path.join(__dirname, 'assets');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir);
+        }
+        cb(null, uploadDir);
+    },
+    filename: function (req, file, cb) {
+        // Keep original filename or sanitize it
+        cb(null, file.originalname.replace(/\s+/g, '-'));
+    }
+});
+const upload = multer({ storage: storage });
+
+// API Route: Upload a file
+app.post('/api/upload', upload.single('file'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded.' });
+    }
+    // Return the relative path
+    res.json({ success: true, filePath: `assets/${req.file.filename}` });
+});
+
+// API Route: List all files in assets directory
+app.get('/api/files', (req, res) => {
+    const uploadDir = path.join(__dirname, 'assets');
+    if (!fs.existsSync(uploadDir)) {
+        return res.json([]);
+    }
+    fs.readdir(uploadDir, (err, files) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to list files' });
+        }
+        res.json(files.map(f => ({ name: f, path: `assets/${f}` })));
+    });
+});
+
+// API Route: Delete a file
+app.delete('/api/files/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const filePath = path.join(__dirname, 'assets', filename);
+
+    if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        res.json({ success: true, message: 'File deleted' });
+    } else {
+        res.status(404).json({ error: 'File not found' });
+    }
+});
 
 // API Route: Get the current portfolio data
 app.get('/api/data', (req, res) => {

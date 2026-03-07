@@ -27,6 +27,14 @@ const portfolioData = {
             "logo": "assets/WeGro.png"
         },
         {
+            "id": 1772133928430,
+            "role": "Co-founder and Produc Manager",
+            "company": "WebL Innovations",
+            "duration": "Feb 2020 - Nov 2024",
+            "description": "Led as the Project Manager for 2 startup ideas (LMS and EMS Systems) and won multiple national-internation grands.",
+            "logo": "assets/webl.jpg"
+        },
+        {
             "id": 3,
             "role": "Internship Trainee",
             "company": "THiNK Limited",
@@ -140,7 +148,8 @@ const portfolioData = {
         {
             "date": "Dec 2025",
             "description": "Started a new role as Sr. Executive - Project Management at Singularity Limited.",
-            "category": "Work"
+            "category": "Work",
+            "link": "file:///E:/New%20folder/G%20Workspace/Portfolio%20PM/work.html#work-experience-container"
         },
         {
             "date": "Dec 2025",
@@ -245,7 +254,7 @@ const portfolioData = {
                 "Logistics MVP"
             ],
             "featured": true,
-            "image": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=1200",
+            "image": "assets/powergenie.jpg",
             "overview": "Tower companies rely heavily on continuous power supply to maintain network connectivity. However, managing backup generators during outages is historically a messy, manual process. The Power Genie Platform was conceptualized to 'uberize' portable generator deployment.",
             "problem": "When a cell tower goes dark, dispatch times for backup generators averaged several hours due to manual vendor coordination, poor routing, and lack of real-time tracking.",
             "solution": "We designed a full-stack platform mapping hardware logistics to software workflows. I drafted the core BRDs (Business Requirement Documents) detailing the architecture that allowed algorithmic dispatching of generators based on distance, traffic, and vendor capacity.",
@@ -253,7 +262,13 @@ const portfolioData = {
                 "Achieved a 45% reduction in average generator dispatch times.",
                 "Digitally onboarded 100+ vendor vehicles into the live-tracking ecosystem.",
                 "Contributed to winning the prestigious SDG Award 2025."
-            ]
+            ],
+            "links": {
+                "linkedin": "https://www.linkedin.com/posts/shahriar-ferdous_powergenie-shebaplatform-projectmanagement-activity-7402062772102086657-d71x?utm_source=share&utm_medium=member_desktop&rcm=ACoAAB2W7v0BAvuJ76jA9eZoEoGEAyX7VDUy1zA",
+                "youtube": "",
+                "github": "",
+                "facebook": ""
+            }
         },
         {
             "id": "ai-mvp",
@@ -275,7 +290,13 @@ const portfolioData = {
                 "Reduced 'Time-to-Validation' from 4 weeks to under 3 days.",
                 "Decreased wasted engineering hours by an estimated 60%.",
                 "Enabled the product team to test 5x as many hypotheses per quarter."
-            ]
+            ],
+            "links": {
+                "linkedin": "",
+                "youtube": "",
+                "github": "",
+                "facebook": ""
+            }
         },
         {
             "id": "lms-startup",
@@ -296,7 +317,13 @@ const portfolioData = {
             "results": [
                 "Successfully loaded core application in under 3 seconds on a 3G connection.",
                 "Secured funding and 1st Runner Up position at Databird Launchpad 2021."
-            ]
+            ],
+            "links": {
+                "linkedin": "",
+                "youtube": "",
+                "github": "",
+                "facebook": ""
+            }
         }
     ],
     "credentials": [
@@ -343,6 +370,24 @@ const portfolioData = {
             ],
             "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200",
             "content": "\n                <h3>The Reality of B2B</h3>\n                <p>When building for consumers, we assume modern hardware and fast internet. When building B2B software for industries like logistics or telecom, we must build for the reality of legacy systems and intermittent connectivity.</p>\n                \n                <h3>The \"Uberization\" Challenge</h3>\n                <p>During my time working on projects that bridge hardware and software (like portable generator dispatching), the challenge was never just the software platform. It was how the software communicated with real-world vendors using low-end devices in areas with poor 3G coverage.</p>\n                \n                <h3>Designing for Resilience</h3>\n                <p>We solved these architectural bottlenecks by utilizing strictly offline-first progressive web applications (PWAs), background synchronization APIs, and aggressive debouncing of location polling.</p>\n                <p>The core lesson: You must design your system architecture around the weakest link in your hardware supply chain.</p>\n            "
+        }
+    ],
+    "settings": {
+        "resumeUrl": "assets/resume.pdf"
+    },
+    "linkedinPosts": [
+        {
+            "title": "𝑶𝒗𝒆𝒓 𝒕𝒉𝒆 𝒍𝒂𝒔𝒕 8 𝒎𝒐𝒏𝒕𝒉𝒔, 𝒍𝒆𝒂𝒅𝒊𝒏𝒈 𝒕𝒉𝒆 𝒆𝒏𝒅-𝒕𝒐-𝒆𝒏𝒅 𝒆𝒙𝒆𝒄𝒖𝒕𝒊𝒐𝒏 𝒐𝒇 \"𝑷𝒐𝒘𝒆𝒓 𝑮𝒆𝒏𝒊𝒆 𝑷𝒓𝒐𝒋𝒆𝒄𝒕\" 𝒉𝒂𝒔 𝒑𝒖𝒔𝒉𝒆𝒅 𝒎𝒆 𝒕𝒐 𝒄𝒐𝒏𝒔𝒕𝒂𝒏𝒕𝒍𝒚 𝒎𝒐𝒗𝒆 𝒃𝒆𝒕𝒘𝒆𝒆𝒏 𝒕𝒉𝒓𝒆𝒆 𝒗𝒆𝒓𝒚 𝒅𝒊𝒇𝒇𝒆𝒓𝒆𝒏𝒕 𝒎𝒊𝒏𝒅𝒔𝒆𝒕𝒔",
+            "link": "https://www.linkedin.com/posts/shahriar-ferdous_powergenie-shebaplatform-projectmanagement-activity-7402062772102086657-d71x"
+        }
+    ],
+    "resumeUrl": "assets/Shahriar-Ferdous-Resume.pdf",
+    "resumes": [
+        {
+            "id": 1772885319471,
+            "name": "Shahriar Ferdous Resume.pdf",
+            "url": "assets/Shahriar-Ferdous-Resume.pdf",
+            "active": true
         }
     ]
 };
