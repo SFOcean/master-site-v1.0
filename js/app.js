@@ -39,10 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function initResumeLinks() {
     if (portfolioData.resumeUrl) {
         document.querySelectorAll('a[data-resume-btn]').forEach(a => {
-            const fileName = portfolioData.resumeUrl.split('/').pop();
-            a.href = portfolioData.resumeUrl;
-            a.setAttribute('download', fileName);
-            a.setAttribute('target', '_blank');
+            // Using the new force-download endpoint
+            a.href = `/api/download-resume?url=${encodeURIComponent(portfolioData.resumeUrl)}`;
+            a.setAttribute('download', portfolioData.resumeUrl.split('/').pop());
+            // No target="_blank" to keep it as a clean direct download
+            a.removeAttribute('target');
         });
     }
 }

@@ -13,6 +13,24 @@ app.use(express.static(__dirname)); // Serve static files from the root
 
 const dataFilePath = path.join(__dirname, 'js', 'data.js');
 
+// API Route: Force download a file (used for resumes)
+app.get('/api/download-resume', (req, res) => {
+    const fileUrl = req.query.url;
+    if (!fileUrl) return res.status(400).send('No file URL provided');
+
+    // Safety check: only allow files from assets folder
+    if (!fileUrl.startsWith('assets/')) {
+        return res.status(403).send('Access denied');
+    }
+
+    const filePath = path.join(__dirname, fileUrl);
+    if (fs.existsSync(filePath)) {
+        res.download(filePath);
+    } else {
+        res.status(404).send('File not found');
+    }
+});
+
 // Custom middleware to disable caching for data.js
 app.use('/js/data.js', (req, res, next) => {
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
