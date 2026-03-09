@@ -147,10 +147,10 @@ const portfolioData = {
     "updates": [
         {
             "id": "new-manual-update",
-            "date": "",
-            "description": "REPLACE THIS TEXT WITH YOUR NEW UPDATE",
+            "date": "Mar 2026",
+            "description": "Released product portfolio website",
             "category": "Work",
-            "link": ""
+            "link": "https://sfocean.github.io/master-site-v1.0/"
         },
         {
             "date": "Dec 2025",
