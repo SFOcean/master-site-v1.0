@@ -4,7 +4,7 @@ const portfolioData = {
     "experience": [
         {
             "id": 1,
-            "role": ". Executive - Project Management",
+            "role": "Sr. Executive - Project Management",
             "company": "Singularity Limited",
             "duration": "Dec 2025 - Present",
             "description": "Leading 5 simultaneous product lifecycles. Owning product roadmap planning, sprint delivery for complex Scrum-based projects, and rapid AI-programmed MVP validation.",
