@@ -146,6 +146,13 @@ const portfolioData = {
     ],
     "updates": [
         {
+            "id": "new-manual-update",
+            "date": "",
+            "description": "REPLACE THIS TEXT WITH YOUR NEW UPDATE",
+            "category": "Work",
+            "link": ""
+        },
+        {
             "date": "Dec 2025",
             "description": "Started a new role as Sr. Executive - Project Management at Singularity Limited.",
             "category": "Work",
