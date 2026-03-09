@@ -1,6 +1,6 @@
 // app.js - Render logic connecting data to DOM
 
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
     initThemeToggle();
     initActiveNav();
     renderUpdates();
@@ -34,7 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCredentials();
     initResumeLinks();
     renderLinkedInSlider();
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
 
 function initResumeLinks() {
     if (portfolioData.resumeUrl) {
