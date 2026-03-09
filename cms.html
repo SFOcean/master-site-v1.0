@@ -465,7 +465,7 @@
                         <p style="color: var(--text-muted); margin-bottom: 24px;">Add a title and a link for your
                             insights/posts.</p>
 
-                        <div v-for="(post, index) in data.linkedinPosts" :key="index" class="card">
+                        <div v-for="(post, index) in data.linkedinPosts" :key="post.id || index" class="card">
                             <div class="card-title">
                                 Insight Card
                                 <div style="display: flex; gap: 8px;">
@@ -495,7 +495,7 @@
                             <h2 class="page-title" style="margin: 0;">Recent Updates</h2>
                             <button class="btn btn-outline" @click="addUpdate">+ Add Update</button>
                         </div>
-                        <div v-for="(update, index) in data.updates" :key="index" class="card">
+                        <div v-for="(update, index) in data.updates" :key="update.id || index" class="card">
                             <div class="card-title">
                                 Update
                                 <div style="display: flex; gap: 8px;">
@@ -537,7 +537,7 @@
                                     @click="addEducationItem(gIndex)">+ Add Item</button>
                             </div>
 
-                            <div v-for="(item, index) in group.items" :key="index" class="card"
+                            <div v-for="(item, index) in group.items" :key="item.id || index" class="card"
                                 style="margin-bottom: 16px;">
                                 <div class="card-title">
                                     Entry
@@ -767,7 +767,7 @@
 
                 addUpdate() {
                     if (!this.data.updates) this.data.updates = [];
-                    this.data.updates.unshift({ date: '', description: '', category: '', link: '' });
+                    this.data.updates.unshift({ id: Date.now(), date: '', description: '', category: '', link: '' });
                 },
                 removeUpdate(idx) {
                     this.data.updates.splice(idx, 1);
@@ -775,7 +775,7 @@
 
                 addLinkedinPost() {
                     if (!this.data.linkedinPosts) this.data.linkedinPosts = [];
-                    this.data.linkedinPosts.unshift({ title: '', link: '' });
+                    this.data.linkedinPosts.unshift({ id: Date.now(), title: '', link: '' });
                 },
                 removeLinkedinPost(idx) {
                     this.data.linkedinPosts.splice(idx, 1);
