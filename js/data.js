@@ -146,7 +146,7 @@ const portfolioData = {
     ],
     "updates": [
         {
-            "date": "Dec 2025",
+            "date": "Dec 20256",
             "description": "Started a new role as Sr. Executive - Project Management at Singularity Limited.",
             "category": "Work",
             "link": "file:///E:/New%20folder/G%20Workspace/Portfolio%20PM/work.html#work-experience-container"
