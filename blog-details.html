@@ -100,9 +100,7 @@
 
     <!-- App Scripts -->
     <script>
-        const dataScript = document.createElement('script');
-        dataScript.src = 'js/data.js?v=' + Date.now();
-        document.head.appendChild(dataScript);
+        document.write('<script src="js/data.js?v=' + Date.now() + '"><\/script>');
     </script>
     <script src="js/app.js"></script>
 </body>
