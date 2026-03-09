@@ -243,7 +243,7 @@ const portfolioData = {
     ],
     "projects": [
         {
-            "id": "property-assitant",
+            "id": "property-platform",
             "title": "Wisebox - Property Management Platform",
             "company": "Singularity x My Wisebox",
             "duration": "2026",
