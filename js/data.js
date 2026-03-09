@@ -243,11 +243,11 @@ const portfolioData = {
     ],
     "projects": [
         {
-            "id": "new-project",
-            "title": "",
-            "company": "",
-            "duration": "",
-            "description": "",
+            "id": "property-assitant",
+            "title": "Wisebox - Property Management Platform",
+            "company": "Singularity x My Wisebox",
+            "duration": "2026",
+            "description": "Wisebox is property management platform for Bangladeshi property ownsers particularly who lives aborad and want to manage the ownership of property in the complex bureaucratic system.",
             "tags": [],
             "featured": false,
             "overview": "",
