@@ -149,22 +149,20 @@ const portfolioData = {
             "date": "Dec 2025",
             "description": "Started a new role as Sr. Executive - Project Management at Singularity Limited.",
             "category": "Work",
-            "link": "file:///E:/New%20folder/G%20Workspace/Portfolio%20PM/work.html#work-experience-container"
+            "link": "file:///E:/New%20folder/G%20Workspace/Portfolio%20PM/work.html#work-experience-container",
+            "id": "updates_0_1773076181630"
         },
         {
             "date": "Dec 2025",
             "description": "Managed the Power Genie Project (A Digital TowerCo Solution) and contributed to winning the SDG Award 2025.",
-            "category": "Work"
+            "category": "Work",
+            "id": "updates_1_1773076181630"
         },
         {
             "date": "Nov 2025",
             "description": "Transitioning fully into owning product roadmaps, cross-functional team delivery, and B2B SaaS architecture planning.",
-            "category": "Life"
-        },
-        {
-            "date": "Jan 2023",
-            "description": "Hands-on training on SCADA, PLC, and Circuit Design at THiNK Limited.",
-            "category": "Education"
+            "category": "Life",
+            "id": "updates_2_1773076181630"
         }
     ],
     "pmRoadmap": [
@@ -392,7 +390,8 @@ const portfolioData = {
     "linkedinPosts": [
         {
             "title": "A PaaS Roll-out Story",
-            "link": "https://www.linkedin.com/posts/shahriar-ferdous_powergenie-shebaplatform-projectmanagement-activity-7402062772102086657-d71x"
+            "link": "https://www.linkedin.com/posts/shahriar-ferdous_powergenie-shebaplatform-projectmanagement-activity-7402062772102086657-d71x",
+            "id": "linkedinPosts_0_1773076181630"
         }
     ],
     "resumeUrl": "assets/Shahriar-Ferdous-Resume.pdf",
