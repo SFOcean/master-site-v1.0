@@ -641,8 +641,13 @@
                                     </p>
                                 </div>
                             </div>
+                            <div style="margin-top: 20px;">
+                                <button @click="connectAndFetch" class="btn btn-primary" style="width: 100%;">
+                                    🚀 Connect & Fetch Data from GitHub
+                                </button>
+                            </div>
                             <div
-                                style="margin-top: 10px; padding: 12px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; font-size: 0.85rem;">
+                                style="margin-top: 20px; padding: 12px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; font-size: 0.85rem;">
                                 💡 <strong>Security:</strong> Your token is only stored in your browser's local storage.
                                 It is never sent to our servers.
                             </div>
@@ -744,7 +749,10 @@
                         array[index + 1] = temp;
                     }
                 },
-                addExperience() { this.data.experience.unshift({ id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' }); },
+                addExperience() {
+                    if (!this.data.experience) this.data.experience = [];
+                    this.data.experience.unshift({ id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' });
+                },
                 removeExperience(idx) { this.data.experience.splice(idx, 1); },
 
                 addProject() { this.data.projects.unshift({ id: 'new-project', title: '', company: '', duration: '', description: '', tags: [], featured: false, overview: '', problem: '', solution: '', results: [], image: '' }); },
@@ -855,6 +863,22 @@
                     localStorage.setItem('gh_token', this.github.token);
                     localStorage.setItem('gh_owner', this.github.owner);
                     localStorage.setItem('gh_repo', this.github.repo);
+                },
+
+                async connectAndFetch() {
+                    this.loading = true;
+                    this.error = false;
+                    try {
+                        await this.loadFromGitHub();
+                        this.initDataStructures();
+                        this.activeTab = 'projects';
+                        this.showToast("Connected to GitHub & Data Loaded!");
+                    } catch (e) {
+                        this.error = true;
+                        alert("Fetch failed: " + e.message);
+                    } finally {
+                        this.loading = false;
+                    }
                 },
 
                 initDataStructures() {
