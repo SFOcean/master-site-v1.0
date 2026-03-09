@@ -886,11 +886,28 @@
                     const keys = ['experience', 'projects', 'blogs', 'education', 'updates', 'linkedinPosts', 'resumes'];
                     keys.forEach(k => {
                         if (!this.data[k]) this.data[k] = [];
+
+                        // Assign persistent ids to existing data objects if missing
+                        if (Array.isArray(this.data[k]) && k !== 'education') {
+                            this.data[k].forEach((item, i) => {
+                                if (item && typeof item === 'object' && !item.id) {
+                                    item.id = k + '_' + i + '_' + Date.now();
+                                }
+                            });
+                        }
                     });
+
                     // Special case for nested education items
-                    this.data.education.forEach(group => {
-                        if (!group.items) group.items = [];
-                    });
+                    if (this.data.education) {
+                        this.data.education.forEach((group, gIndex) => {
+                            if (!group.items) group.items = [];
+                            group.items.forEach((item, i) => {
+                                if (item && typeof item === 'object' && !item.id) {
+                                    item.id = 'edu_' + gIndex + '_' + i + '_' + Date.now();
+                                }
+                            });
+                        });
+                    }
                 },
 
                 async loadFromGitHub() {
