@@ -243,6 +243,20 @@ const portfolioData = {
     ],
     "projects": [
         {
+            "id": "new-project",
+            "title": "",
+            "company": "",
+            "duration": "",
+            "description": "",
+            "tags": [],
+            "featured": false,
+            "overview": "",
+            "problem": "",
+            "solution": "",
+            "results": [],
+            "image": ""
+        },
+        {
             "id": "power-genie",
             "title": "Power Genie Platform",
             "company": "Sheba Platform x EDOTCO",
