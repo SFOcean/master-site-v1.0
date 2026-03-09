@@ -465,7 +465,7 @@
                         <p style="color: var(--text-muted); margin-bottom: 24px;">Add a title and a link for your
                             insights/posts.</p>
 
-                        <div v-for="(post, index) in data.linkedinPosts" :key="post.id || index" class="card">
+                        <div v-for="(post, index) in data.linkedinPosts" :key="index" class="card">
                             <div class="card-title">
                                 Insight Card
                                 <div style="display: flex; gap: 8px;">
@@ -495,7 +495,7 @@
                             <h2 class="page-title" style="margin: 0;">Recent Updates</h2>
                             <button class="btn btn-outline" @click="addUpdate">+ Add Update</button>
                         </div>
-                        <div v-for="(update, index) in data.updates" :key="update.id || index" class="card">
+                        <div v-for="(update, index) in data.updates" :key="index" class="card">
                             <div class="card-title">
                                 Update
                                 <div style="display: flex; gap: 8px;">
@@ -537,7 +537,7 @@
                                     @click="addEducationItem(gIndex)">+ Add Item</button>
                             </div>
 
-                            <div v-for="(item, index) in group.items" :key="item.id || index" class="card"
+                            <div v-for="(item, index) in group.items" :key="index" class="card"
                                 style="margin-bottom: 16px;">
                                 <div class="card-title">
                                     Entry
@@ -751,34 +751,53 @@
                 },
                 addExperience() {
                     if (!this.data.experience) this.data.experience = [];
-                    this.data.experience.unshift({ id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' });
+                    const newItem = { id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' };
+                    this.data.experience = [newItem, ...this.data.experience];
                 },
-                removeExperience(idx) { this.data.experience.splice(idx, 1); },
+                removeExperience(idx) {
+                    this.data.experience = this.data.experience.filter((_, i) => i !== idx);
+                },
 
-                addProject() { this.data.projects.unshift({ id: 'new-project', title: '', company: '', duration: '', description: '', tags: [], featured: false, overview: '', problem: '', solution: '', results: [], image: '' }); },
-                removeProject(idx) { this.data.projects.splice(idx, 1); },
+                addProject() {
+                    if (!this.data.projects) this.data.projects = [];
+                    const newItem = { id: 'new-project-' + Date.now(), title: '', company: '', duration: '', description: '', tags: [], featured: false, overview: '', problem: '', solution: '', results: [], image: '' };
+                    this.data.projects = [newItem, ...this.data.projects];
+                },
+                removeProject(idx) {
+                    this.data.projects = this.data.projects.filter((_, i) => i !== idx);
+                },
 
-                addBlog() { this.data.blogs.unshift({ id: 'new-blog', title: '', date: '', readTime: '', summary: '', tags: [], image: '', content: '' }); },
-                removeBlog(idx) { this.data.blogs.splice(idx, 1); },
+                addBlog() {
+                    if (!this.data.blogs) this.data.blogs = [];
+                    const newItem = { id: 'new-blog-' + Date.now(), title: '', date: '', readTime: '', summary: '', tags: [], image: '', content: '' };
+                    this.data.blogs = [newItem, ...this.data.blogs];
+                },
+                removeBlog(idx) {
+                    this.data.blogs = this.data.blogs.filter((_, i) => i !== idx);
+                },
 
                 addEducationItem(groupIndex) {
-                    this.data.education[groupIndex].items.unshift({ id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' });
+                    if (!this.data.education[groupIndex].items) this.data.education[groupIndex].items = [];
+                    const newItem = { id: Date.now(), role: '', company: '', duration: '', description: '', logo: '' };
+                    this.data.education[groupIndex].items = [newItem, ...this.data.education[groupIndex].items];
                 },
 
                 addUpdate() {
                     if (!this.data.updates) this.data.updates = [];
-                    this.data.updates.unshift({ id: Date.now(), date: '', description: '', category: '', link: '' });
+                    const newItem = { id: Date.now(), date: '', description: '', category: '', link: '' };
+                    this.data.updates = [newItem, ...this.data.updates];
                 },
                 removeUpdate(idx) {
-                    this.data.updates.splice(idx, 1);
+                    this.data.updates = this.data.updates.filter((_, i) => i !== idx);
                 },
 
                 addLinkedinPost() {
                     if (!this.data.linkedinPosts) this.data.linkedinPosts = [];
-                    this.data.linkedinPosts.unshift({ id: Date.now(), title: '', link: '' });
+                    const newItem = { id: Date.now(), title: '', link: '' };
+                    this.data.linkedinPosts = [newItem, ...this.data.linkedinPosts];
                 },
                 removeLinkedinPost(idx) {
-                    this.data.linkedinPosts.splice(idx, 1);
+                    this.data.linkedinPosts = this.data.linkedinPosts.filter((_, i) => i !== idx);
                 },
 
                 setResumeActive(idx) {
