@@ -267,8 +267,20 @@
 
     <div id="app">
         <div v-if="loading" class="loader">
-            <span v-if="!error">Connecting to Database...</span>
-            <span v-else style="color: red;">❌ Failed connection. Ensure 'node server.js' is running.</span>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <span v-if="!error">Loading Portfolio Data...</span>
+                <span v-else style="color: var(--danger); text-align: center;">
+                    ❌ Database Connection Failed.<br>
+                    <span style="font-size: 0.9rem; margin-top: 8px; display: block;">
+                        Check if 'node server.js' is running locally,<br>
+                        or configure <strong>GitHub Sync</strong> if on live link.
+                    </span>
+                    <button @click="loading = false; activeTab = 'github'" class="btn btn-primary"
+                        style="margin-top: 20px;">
+                        ⚙️ Configure GitHub Sync
+                    </button>
+                </span>
+            </div>
         </div>
 
         <div v-else class="app-container">
@@ -292,8 +304,7 @@
                         Currently editing: <strong style="color: var(--text-main);">{{ currentTabName }}</strong>
                     </div>
                     <div style="display: flex; gap: 12px;">
-                        <a href="http://127.0.0.1:5500" target="_blank" class="btn btn-outline"
-                            title="Requires standard Live Server">Preview Site</a>
+                        <a href="/" target="_blank" class="btn btn-outline" title="View your live site">Preview Site</a>
                         <button class="btn btn-primary" @click="saveChanges" :disabled="saving">
                             {{ saving ? 'Saving...' : 'Save All Changes' }}
                         </button>
@@ -335,6 +346,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Projects Section -->
                     <div v-if="activeTab === 'projects'">
@@ -387,7 +399,7 @@
                                         v-model="proj.solution"></textarea></div>
                                 <div class="form-group full">
                                     <label>Results (One per line)</label>
-                                    <textarea :value="(proj.results || []).join('\\n')"
+                                    <textarea :value="(proj.results || []).join('\n')"
                                         @input="updateResults($event, proj)"></textarea>
                                 </div>
                                 <div class="form-group"
@@ -556,6 +568,7 @@
                         </div>
                     </div>
 
+
                     <!-- Resumes Section -->
                     <div v-if="activeTab === 'resumes'">
                         <div
@@ -603,6 +616,39 @@
                         </div>
                     </div>
 
+                    <!-- GitHub Sync Settings -->
+                    <div v-if="activeTab === 'github'">
+                        <div class="card">
+                            <div class="card-title">GitHub Deployment Connectivity</div>
+                            <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">
+                                Enter your GitHub details here to allow the CMS to save changes directly to your
+                                repository.
+                                This makes the CMS work even on your <strong>live github.io link</strong>.
+                            </p>
+                            <div class="form-grid">
+                                <div class="form-group"><label>GitHub Username (Owner)</label><input
+                                        v-model="github.owner" @change="saveConfig"></div>
+                                <div class="form-group"><label>Repository Name</label><input v-model="github.repo"
+                                        @change="saveConfig"></div>
+                                <div class="form-group full">
+                                    <label>Personal Access Token (classic)</label>
+                                    <input type="password" v-model="github.token" @change="saveConfig"
+                                        placeholder="ghp_xxxxxxxxxxxx">
+                                    <p style="font-size: 0.75rem; margin-top: 4px;">
+                                        <a href="https://github.com/settings/tokens" target="_blank">Generate a token
+                                            here</a>
+                                        with <strong>'repo'</strong> scope.
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                style="margin-top: 10px; padding: 12px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 6px; font-size: 0.85rem;">
+                                💡 <strong>Security:</strong> Your token is only stored in your browser's local storage.
+                                It is never sent to our servers.
+                            </div>
+                        </div>
+                    </div>
+
 
 
                 </div>
@@ -610,7 +656,7 @@
         </div>
 
         <!-- Toast Notification -->
-        <div class="toast" :class="{ show: toastVisible }">✅ Saved Successfully to Database!</div>
+        <div class="toast" :class="{ show: toastVisible }">Saved Successfully!</div>
     </div>
 
     <script>
@@ -631,9 +677,15 @@
                         { id: 'blogs', name: 'Writings & Blogs' },
                         { id: 'linkedin', name: 'LinkedIn Posts' },
                         { id: 'education', name: 'Education' },
-                        { id: 'resumes', name: 'Resumes' }
+                        { id: 'resumes', name: 'Resumes' },
+                        { id: 'github', name: '⚙️ GitHub Sync' }
                     ],
-                    data: {}
+                    github: {
+                        token: localStorage.getItem('gh_token') || '',
+                        owner: localStorage.getItem('gh_owner') || 'SFOcean',
+                        repo: localStorage.getItem('gh_repo') || 'master-site-v1.0',
+                        path: 'js/data.js'
+                    },
                 };
             },
             computed: {
@@ -642,21 +694,24 @@
                 }
             },
             async mounted() {
-                try {
-                    const res = await fetch('http://localhost:3000/api/data');
-                    if (!res.ok) throw new Error("Failed");
+                // Determine if we should try to load from GitHub first
+                const usesGitHub = this.github.token && this.github.owner && this.github.repo;
 
-                    this.data = await res.json();
+                try {
+                    // 1. Try local server first
+                    const res = await fetch('/api/data');
+                    if (res.ok) {
+                        this.data = await res.json();
+                    } else if (usesGitHub) {
+                        // 2. Fallback to GitHub if local fails and we have config
+                        console.log("Local server not found, trying GitHub...");
+                        await this.loadFromGitHub();
+                    } else {
+                        throw new Error("No data source found");
+                    }
 
                     // Initialize arrays if missing
-                    if (!this.data.experience) this.data.experience = [];
-                    if (!this.data.projects) this.data.projects = [];
-                    if (!this.data.blogs) this.data.blogs = [];
-                    if (!this.data.education) this.data.education = [];
-                    if (!this.data.updates) this.data.updates = [];
-                    if (!this.data.linkedinPosts) this.data.linkedinPosts = [];
-                    if (!this.data.resumes) this.data.resumes = [];
-
+                    this.initDataStructures();
                     this.loading = false;
                 } catch (err) {
                     console.error(err);
@@ -671,7 +726,7 @@
                 },
                 updateResults(event, item) {
                     const val = event.target.value;
-                    item.results = val.split('\\n').map(s => s.trim()).filter(Boolean);
+                    item.results = val.split('\n').map(s => s.trim()).filter(Boolean);
                 },
 
                 // Adders / Removers / Movers
@@ -745,7 +800,7 @@
                     formData.append('file', file);
 
                     try {
-                        const res = await fetch('http://localhost:3000/api/upload', {
+                        const res = await fetch('/api/upload', {
                             method: 'POST',
                             body: formData
                         });
@@ -771,7 +826,7 @@
                 async saveChanges() {
                     this.saving = true;
                     try {
-                        const res = await fetch('http://localhost:3000/api/saveData', {
+                        const res = await fetch('/api/saveData', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(this.data)
@@ -779,18 +834,115 @@
                         const result = await res.json();
 
                         if (result.success) {
-                            this.showToast();
+                            this.showToast("Changes saved locally!");
                         } else {
                             alert("Save failed on backend.");
                         }
                     } catch (e) {
-                        alert("Network error: Server must be running on port 3000.");
+                        // If local server fails, try GitHub if configured
+                        if (this.github.token && this.github.owner && this.github.repo) {
+                            console.log("Local server down, trying GitHub sync...");
+                            await this.saveToGitHub();
+                        } else {
+                            alert("Network error: Local server is not running and GitHub sync is not configured.");
+                        }
                     } finally {
                         this.saving = false;
                     }
                 },
 
-                showToast() {
+                saveConfig() {
+                    localStorage.setItem('gh_token', this.github.token);
+                    localStorage.setItem('gh_owner', this.github.owner);
+                    localStorage.setItem('gh_repo', this.github.repo);
+                },
+
+                initDataStructures() {
+                    if (!this.data) this.data = {};
+                    const keys = ['experience', 'projects', 'blogs', 'education', 'updates', 'linkedinPosts', 'resumes'];
+                    keys.forEach(k => {
+                        if (!this.data[k]) this.data[k] = [];
+                    });
+                    // Special case for nested education items
+                    this.data.education.forEach(group => {
+                        if (!group.items) group.items = [];
+                    });
+                },
+
+                async loadFromGitHub() {
+                    const url = `https://api.github.com/repos/${this.github.owner}/${this.github.repo}/contents/${this.github.path}`;
+                    const headers = {
+                        'Authorization': `token ${this.github.token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    };
+
+                    const res = await fetch(url, { headers });
+                    if (!res.ok) throw new Error("Could not load from GitHub");
+
+                    const fileData = await res.json();
+                    const content = decodeURIComponent(escape(atob(fileData.content)));
+
+                    // Extract the JSON object from the file content
+                    // Assumes format: const portfolioData = { ... };
+                    const jsonMatch = content.match(/portfolioData\s*=\s*({[\s\S]*});?/);
+                    if (jsonMatch && jsonMatch[1]) {
+                        this.data = JSON.parse(jsonMatch[1]);
+                    } else {
+                        throw new Error("Format of data.js is not recognized");
+                    }
+                },
+
+                async saveToGitHub() {
+                    if (!this.github.token) {
+                        return alert("Please configure your GitHub Token in the 'GitHub Sync' tab first.");
+                    }
+
+                    this.saving = true;
+                    try {
+                        const content = `// data.js - The Pseudo-CMS for Portfolio Data\n\nconst portfolioData = ${JSON.stringify(this.data, null, 4)};\n`;
+
+                        // 1. Get the current file SHA (required by GitHub for updates)
+                        const url = `https://api.github.com/repos/${this.github.owner}/${this.github.repo}/contents/${this.github.path}`;
+                        const headers = {
+                            'Authorization': `token ${this.github.token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        };
+
+                        const getFile = await fetch(url, { headers });
+                        let sha = '';
+                        if (getFile.ok) {
+                            const fileData = await getFile.json();
+                            sha = fileData.sha;
+                        }
+
+                        // 2. Push the update
+                        const pushRes = await fetch(url, {
+                            method: 'PUT',
+                            headers,
+                            body: JSON.stringify({
+                                message: 'Update portfolio data via CMS',
+                                content: btoa(unescape(encodeURIComponent(content))),
+                                sha: sha
+                            })
+                        });
+
+                        if (pushRes.ok) {
+                            this.showToast("Successfully synced with GitHub!");
+                        } else {
+                            const errData = await pushRes.json();
+                            alert("GitHub Sync Error: " + (errData.message || "Unknown error"));
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        alert("Failed to sync with GitHub. Check your network and settings.");
+                    } finally {
+                        this.saving = false;
+                    }
+                },
+
+                showToast(msg) {
+                    const toast = document.querySelector('.toast');
+                    if (toast) toast.innerText = "✅ " + (msg || "Saved Successfully!");
                     this.toastVisible = true;
                     setTimeout(() => { this.toastVisible = false; }, 3000);
                 }
