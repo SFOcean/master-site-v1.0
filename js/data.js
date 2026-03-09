@@ -208,7 +208,7 @@ const portfolioData = {
             "items": [
                 {
                     "id": 1,
-                    "role": "Professional Scrum Product Owner (PSPOΓäó I)",
+                    "role": "Professional Scrum Product Owner (PSPO)",
                     "company": "Scrum.org",
                     "duration": "Expected 2026",
                     "description": "Certification covering agile product management and product ownership principles.",
@@ -216,11 +216,11 @@ const portfolioData = {
                 },
                 {
                     "id": 2,
-                    "role": "Certified Supply Chain Analyst (CSCAΓäó)",
+                    "role": "Certified Supply Chain Analyst (CSCA)",
                     "company": "ISCEA",
                     "duration": "2025",
                     "description": "Certification covering end-to-end supply chain concepts.",
-                    "logo": "assets/iscea.png"
+                    "logo": "assets/iscea.jpg"
                 }
             ]
         },
